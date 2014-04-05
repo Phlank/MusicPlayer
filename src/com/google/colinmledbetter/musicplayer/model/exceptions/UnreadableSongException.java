@@ -1,4 +1,4 @@
-package com.google.colinmledbetter.musicplayer.model;
+package com.google.colinmledbetter.musicplayer.model.exceptions;
 
 public class UnreadableSongException extends Exception {
 

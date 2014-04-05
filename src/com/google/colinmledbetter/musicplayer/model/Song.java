@@ -13,6 +13,8 @@ import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.UnreadableSongException;
+
 public class Song {
 
 	private static final String UNREADABLE_MESSAGE = "File either does not exist or is unreadable";
@@ -20,10 +22,14 @@ public class Song {
 	private static final String UNKNOWN_SONG_TITLE = "Unknown Song";
 	private static final String UNKNOWN_ARTIST_TITLE = "Unknown Artist";
 	private static final String UNKNOWN_ALBUM_TITLE = "Unknown Album";
-	private static final String UNKNOWN_ALBUM_ARTIST_TITLE = "Unknown Artist";
 
 	private Tag tag;
 	private AudioHeader header;
+	private String formattedTrackLength;
+
+	private int numberOfHours;
+	private int numberOfMinutes;
+	private int numberOfSeconds;
 
 	public Song(String filepath) throws UnreadableSongException {
 		AudioFile file;
@@ -65,13 +71,46 @@ public class Song {
 	public String getAlbumArtistTitle() {
 		try {
 			if (tag.getFirst(FieldKey.ALBUM_ARTIST) == "") {
-				return UNKNOWN_ALBUM_ARTIST_TITLE;
+				return getArtistTitle();
 			} else {
 				return tag.getFirst(FieldKey.ALBUM_ARTIST);
 			}
 		} catch (UnsupportedOperationException e) {
-			return UNKNOWN_ALBUM_ARTIST_TITLE;
+			return getArtistTitle();
 		}
 	}
 
+	public String getFormattedTrackLength() {
+		numberOfSeconds = header.getTrackLength() % 60;
+		numberOfMinutes = (header.getTrackLength() / 60) % 60;
+		numberOfHours = header.getTrackLength() / 3600;
+		formattedTrackLength = "";
+		appendHours();
+		appendMinutes();
+		appendSeconds();
+		return formattedTrackLength;
+	}
+
+	private void appendHours() {
+		if (numberOfHours > 0) {
+			formattedTrackLength = formattedTrackLength + numberOfHours + ":";
+		}
+	}
+
+	private void appendMinutes() {
+		if (numberOfHours > 0 && numberOfMinutes < 10) {
+			formattedTrackLength = formattedTrackLength + "0" + numberOfMinutes
+					+ ":";
+		} else if (numberOfMinutes > 0) {
+			formattedTrackLength = formattedTrackLength + numberOfMinutes + ":";
+		}
+	}
+
+	private void appendSeconds() {
+		if (numberOfMinutes > 0 && numberOfSeconds < 10) {
+			formattedTrackLength = formattedTrackLength + "0" + numberOfSeconds;
+		} else {
+			formattedTrackLength = formattedTrackLength + numberOfSeconds;
+		}
+	}
 }

@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.UnreadableSongException;
+
 public class SongTest {
 	
 	private Song songWithTag;
@@ -48,6 +50,16 @@ public class SongTest {
 	@Test
 	public void testAlbumArtistTitleForSongWithNoTag() {
 		Assert.assertEquals("Unknown Artist", songWithNoTag.getAlbumArtistTitle());
+	}
+	
+	@Test
+	public void testFormattedTrackLengthForSongWithSeconds() {
+		Assert.assertEquals("0", songWithNoTag.getFormattedTrackLength());
+	}
+	
+	@Test
+	public void testFormattedTrackLengthForSongWithMinutes() {
+		Assert.assertEquals("5:02", songWithTag.getFormattedTrackLength());
 	}
 
 }
