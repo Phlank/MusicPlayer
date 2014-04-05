@@ -6,31 +6,48 @@ import org.junit.Before;
 
 public class SongTest {
 	
-	private Song song;
+	private Song songWithTag;
+	private Song songWithNoTag;
 	
 	@Before
 	public void loadSong() throws UnreadableSongException {
-		song = new Song("test-assets/Phlank_Document_1.mp3");
+		songWithTag = new Song("test-assets/Phlank_Document_1.mp3");
+		songWithNoTag = new Song("test-assets/sine440.wav");
 	}
 	
 	@Test
-	public void testSongTitle() {
-		Assert.assertEquals("Document 1", song.getSongTitle());
+	public void testSongTitleForSongWithTag() {
+		Assert.assertEquals("Document 1", songWithTag.getSongTitle());
 	}
 	
 	@Test
-	public void testArtistTitle() {
-		Assert.assertEquals("Phlank", song.getArtistTitle());
+	public void testArtistTitleForSongWithTag() {
+		Assert.assertEquals("Phlank", songWithTag.getArtistTitle());
 	}
 	
 	@Test
-	public void testAlbumTitle() {
-		Assert.assertEquals("Unsigned Music", song.getAlbumTitle());
+	public void testAlbumTitleForSongWithTag() {
+		Assert.assertEquals("Unsigned Music", songWithTag.getAlbumTitle());
 	}
 	
 	@Test
-	public void testAlbumArtistTitle() {
-		Assert.assertEquals("Phlank", song.getAlbumArtistTitle());
+	public void testAlbumArtistTitleForSongWithTag() {
+		Assert.assertEquals("Phlank", songWithTag.getAlbumArtistTitle());
+	}
+	
+	@Test
+	public void testSongTitleForSongWithNoTag() {
+		Assert.assertEquals("Unknown Song", songWithNoTag.getSongTitle());
+	}
+	
+	@Test
+	public void testArtistTitleForSongWithNoTag() {
+		Assert.assertEquals("Unknown Artist", songWithNoTag.getArtistTitle());
+	}
+	
+	@Test
+	public void testAlbumArtistTitleForSongWithNoTag() {
+		Assert.assertEquals("Unknown Artist", songWithNoTag.getAlbumArtistTitle());
 	}
 
 }

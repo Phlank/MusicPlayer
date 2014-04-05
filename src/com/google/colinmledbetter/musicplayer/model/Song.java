@@ -8,6 +8,7 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.AudioHeader;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -22,12 +23,14 @@ public class Song {
 	private static final String UNKNOWN_ALBUM_ARTIST_TITLE = "Unknown Artist";
 
 	private Tag tag;
+	private AudioHeader header;
 
 	public Song(String filepath) throws UnreadableSongException {
 		AudioFile file;
 		try {
 			file = AudioFileIO.read(new File(filepath));
 			tag = file.getTag();
+			header = file.getAudioHeader();
 		} catch (TagException | InvalidAudioFrameException e) {
 			throw new UnreadableSongException(CORRUPT_MESSAGE);
 		} catch (CannotReadException | IOException | ReadOnlyFileException e) {
@@ -60,10 +63,14 @@ public class Song {
 	}
 
 	public String getAlbumArtistTitle() {
-		if (tag.getFirst(FieldKey.ALBUM_ARTIST) == "") {
+		try {
+			if (tag.getFirst(FieldKey.ALBUM_ARTIST) == "") {
+				return UNKNOWN_ALBUM_ARTIST_TITLE;
+			} else {
+				return tag.getFirst(FieldKey.ALBUM_ARTIST);
+			}
+		} catch (UnsupportedOperationException e) {
 			return UNKNOWN_ALBUM_ARTIST_TITLE;
-		} else {
-			return tag.getFirst(FieldKey.ALBUM_ARTIST);
 		}
 	}
 
