@@ -9,7 +9,7 @@ public class SongTest {
 	private Song song;
 	
 	@Before
-	public void loadSong() {
+	public void loadSong() throws UnreadableSongException {
 		song = new Song("test-assets/Phlank_Document_1.mp3");
 	}
 	
