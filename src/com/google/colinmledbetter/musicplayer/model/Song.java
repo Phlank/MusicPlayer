@@ -24,8 +24,16 @@ public class Song {
 		return tag.getFirst(FieldKey.TITLE);
 	}
 	
-	public String getSongArtist() {
+	public String getArtistTitle() {
 		return tag.getFirst(FieldKey.ARTIST);
+	}
+	
+	public String getAlbumTitle() {
+		return tag.getFirst(FieldKey.ALBUM);
+	}
+	
+	public String getAlbumArtistTitle() {
+		return tag.getFirst(FieldKey.ALBUM_ARTIST);
 	}
 
 }

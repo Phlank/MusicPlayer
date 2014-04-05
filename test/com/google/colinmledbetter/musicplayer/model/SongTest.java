@@ -19,8 +19,18 @@ public class SongTest {
 	}
 	
 	@Test
-	public void testSongArtist() {
-		Assert.assertEquals("Phlank", song.getSongArtist());
+	public void testArtistTitle() {
+		Assert.assertEquals("Phlank", song.getArtistTitle());
+	}
+	
+	@Test
+	public void testAlbumTitle() {
+		Assert.assertEquals("Unsigned Music", song.getAlbumTitle());
+	}
+	
+	@Test
+	public void testAlbumArtistTitle() {
+		Assert.assertEquals("Phlank", song.getAlbumArtistTitle());
 	}
 
 }
