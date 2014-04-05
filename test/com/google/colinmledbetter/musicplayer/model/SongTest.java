@@ -17,5 +17,10 @@ public class SongTest {
 	public void testSongTitle() {
 		Assert.assertEquals("Document 1", song.getSongTitle());
 	}
+	
+	@Test
+	public void testSongArtist() {
+		Assert.assertEquals("Phlank", song.getSongArtist());
+	}
 
 }
