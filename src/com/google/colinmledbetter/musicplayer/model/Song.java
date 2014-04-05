@@ -23,5 +23,9 @@ public class Song {
 	public String getSongTitle() {
 		return tag.getFirst(FieldKey.TITLE);
 	}
+	
+	public String getSongArtist() {
+		return tag.getFirst(FieldKey.ARTIST);
+	}
 
 }
