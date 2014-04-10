@@ -11,14 +11,12 @@ public class SongTest {
 	
 	private Song mp3Tagged;
 	private Song mp3Untagged;
-	private Song wavTagged;
 	private Song wavUntagged;
 	
 	@Before
 	public void loadSong() throws UnreadableSongException, CorruptSongException {
 		mp3Tagged = new Song("test-assets/sine440tagged.mp3");
 		mp3Untagged = new Song("test-assets/sine440untagged.mp3");
-		wavTagged = new Song("test-assets/sine440tagged.wav");
 		wavUntagged = new Song("test-assets/sine440untagged.wav");
 	}
 	
@@ -63,8 +61,38 @@ public class SongTest {
 	}
 	
 	@Test
+	public void testSongTitleForWavUntagged() {
+		Assert.assertEquals("Unknown Song", wavUntagged.getSongTitle());
+	}
+	
+	@Test
+	public void testArtistTitleForWavUntagged() {
+		Assert.assertEquals("Unknown Artist", wavUntagged.getArtistTitle());
+	}
+	
+	@Test
+	public void testAlbumTitleForWavUntagged() {
+		Assert.assertEquals("Unknown Album", wavUntagged.getAlbumTitle());
+	}
+	
+	@Test
+	public void testAlbumArtistTitleForWavUntagged() {
+		Assert.assertEquals("Unknown Artist", wavUntagged.getAlbumArtistTitle());
+	}
+	
+	@Test
 	public void testNumberOfSeconds() {
 		Assert.assertEquals(0, mp3Tagged.getNumberOfSeconds());
+	}
+	
+	@Test(expected = UnreadableSongException.class)
+	public void loadWavTaggedThrowsUnreadableSongException() throws UnreadableSongException, CorruptSongException {
+		new Song("test-assets/sine440tagged.wav");
+	}
+	
+	@Test(expected = UnreadableSongException.class)
+	public void loadNonSongFile() throws UnreadableSongException, CorruptSongException {
+		new Song("test-assets/notasong.txt");
 	}
 
 }

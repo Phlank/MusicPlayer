@@ -13,13 +13,11 @@ import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
-import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UnreadableSongException;
 
 public class Song {
 
 	private static final String UNREADABLE_MESSAGE = "File either does not exist or is unreadable";
-	private static final String CORRUPT_MESSAGE = "File is corrupt";
 	private static final String UNKNOWN_SONG_TITLE = "Unknown Song";
 	private static final String UNKNOWN_ARTIST_TITLE = "Unknown Artist";
 	private static final String UNKNOWN_ALBUM_TITLE = "Unknown Album";
@@ -27,39 +25,44 @@ public class Song {
 	private Tag tag;
 	private AudioHeader header;
 
-	public Song(String filepath) throws UnreadableSongException, CorruptSongException {
+	public Song(String filepath) throws UnreadableSongException {
 		try {
 			AudioFile file = AudioFileIO.read(new File(filepath));
 			tag = file.getTag();
 			header = file.getAudioHeader();
-		} catch (TagException | InvalidAudioFrameException e) {
-			throw new CorruptSongException(CORRUPT_MESSAGE);
-		} catch (CannotReadException | IOException | ReadOnlyFileException e) {
+		} catch (CannotReadException | IOException | ReadOnlyFileException
+				| TagException | InvalidAudioFrameException e) {
 			throw new UnreadableSongException(UNREADABLE_MESSAGE);
 		}
 	}
 
 	public String getSongTitle() {
-		if (tag.getFirst(FieldKey.TITLE) == "") {
-			return UNKNOWN_SONG_TITLE;
-		} else {
+		boolean hasSongTitle = tag != null && //
+				!tag.getFirst(FieldKey.TITLE).equals("");
+		if (hasSongTitle) {
 			return tag.getFirst(FieldKey.TITLE);
+		} else {
+			return UNKNOWN_SONG_TITLE;
 		}
 	}
 
 	public String getArtistTitle() {
-		if (tag.getFirst(FieldKey.ARTIST) == "") {
-			return UNKNOWN_ARTIST_TITLE;
-		} else {
+		boolean hasArtistTitle = tag != null && //
+				!tag.getFirst(FieldKey.ARTIST).equals("");
+		if (hasArtistTitle) {
 			return tag.getFirst(FieldKey.ARTIST);
+		} else {
+			return UNKNOWN_ARTIST_TITLE;
 		}
 	}
 
 	public String getAlbumTitle() {
-		if (tag.getFirst(FieldKey.ALBUM) == "") {
-			return UNKNOWN_ALBUM_TITLE;
-		} else {
+		boolean hasAlbumTitle = tag != null && //
+				!tag.getFirst(FieldKey.ALBUM).equals("");
+		if (hasAlbumTitle) {
 			return tag.getFirst(FieldKey.ALBUM);
+		} else {
+			return UNKNOWN_ALBUM_TITLE;
 		}
 	}
 
@@ -67,6 +70,7 @@ public class Song {
 		boolean formatIsUnsupported = header.getFormat().substring(0, 3)
 				.equals("WAV");
 		boolean hasAlbumArtistTitle = !formatIsUnsupported && //
+				tag != null && //
 				!tag.getFirst(FieldKey.ALBUM_ARTIST).equals("");
 		if (hasAlbumArtistTitle) {
 			return tag.getFirst(FieldKey.ALBUM_ARTIST);
