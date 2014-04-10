@@ -28,9 +28,8 @@ public class Song {
 	private AudioHeader header;
 
 	public Song(String filepath) throws UnreadableSongException, CorruptSongException {
-		AudioFile file;
 		try {
-			file = AudioFileIO.read(new File(filepath));
+			AudioFile file = AudioFileIO.read(new File(filepath));
 			tag = file.getTag();
 			header = file.getAudioHeader();
 		} catch (TagException | InvalidAudioFrameException e) {
@@ -65,13 +64,13 @@ public class Song {
 	}
 
 	public String getAlbumArtistTitle() {
-		try {
-			if (tag.getFirst(FieldKey.ALBUM_ARTIST) == "") {
-				return getArtistTitle();
-			} else {
-				return tag.getFirst(FieldKey.ALBUM_ARTIST);
-			}
-		} catch (UnsupportedOperationException e) {
+		boolean formatIsUnsupported = header.getFormat().substring(0, 3)
+				.equals("WAV");
+		boolean hasAlbumArtistTitle = !formatIsUnsupported && //
+				!tag.getFirst(FieldKey.ALBUM_ARTIST).equals("");
+		if (hasAlbumArtistTitle) {
+			return tag.getFirst(FieldKey.ALBUM_ARTIST);
+		} else {
 			return getArtistTitle();
 		}
 	}

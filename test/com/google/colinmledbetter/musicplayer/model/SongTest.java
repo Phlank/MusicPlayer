@@ -9,53 +9,62 @@ import com.google.colinmledbetter.musicplayer.model.exceptions.UnreadableSongExc
 
 public class SongTest {
 	
-	private Song songWithTag;
-	private Song songWithNoTag;
+	private Song mp3Tagged;
+	private Song mp3Untagged;
+	private Song wavTagged;
+	private Song wavUntagged;
 	
 	@Before
 	public void loadSong() throws UnreadableSongException, CorruptSongException {
-		songWithTag = new Song("test-assets/Phlank_Document_1.mp3");
-		songWithNoTag = new Song("test-assets/sine440.wav");
+		mp3Tagged = new Song("test-assets/sine440tagged.mp3");
+		mp3Untagged = new Song("test-assets/sine440untagged.mp3");
+		wavTagged = new Song("test-assets/sine440tagged.wav");
+		wavUntagged = new Song("test-assets/sine440untagged.wav");
 	}
 	
 	@Test
-	public void testSongTitleForSongWithTag() {
-		Assert.assertEquals("Document 1", songWithTag.getSongTitle());
+	public void testSongTitleForMp3Tagged() {
+		Assert.assertEquals("sine440", mp3Tagged.getSongTitle());
 	}
 	
 	@Test
-	public void testArtistTitleForSongWithTag() {
-		Assert.assertEquals("Phlank", songWithTag.getArtistTitle());
+	public void testArtistTitleForMp3Tagged() {
+		Assert.assertEquals("cledbetter", mp3Tagged.getArtistTitle());
 	}
 	
 	@Test
-	public void testAlbumTitleForSongWithTag() {
-		Assert.assertEquals("Unsigned Music", songWithTag.getAlbumTitle());
+	public void testAlbumTitleForMp3Tagged() {
+		Assert.assertEquals("musicplayertests", mp3Tagged.getAlbumTitle());
 	}
 	
 	@Test
-	public void testAlbumArtistTitleForSongWithTag() {
-		Assert.assertEquals("Phlank", songWithTag.getAlbumArtistTitle());
+	public void testAlbumArtistTitleForMp3Tagged() {
+		Assert.assertEquals("cledbetter", mp3Tagged.getAlbumArtistTitle());
 	}
 	
 	@Test
-	public void testSongTitleForSongWithNoTag() {
-		Assert.assertEquals("Unknown Song", songWithNoTag.getSongTitle());
+	public void testSongTitleForMp3Untagged() {
+		Assert.assertEquals("Unknown Song", mp3Untagged.getSongTitle());
 	}
 	
 	@Test
-	public void testArtistTitleForSongWithNoTag() {
-		Assert.assertEquals("Unknown Artist", songWithNoTag.getArtistTitle());
+	public void testArtistTitleForMp3Untagged() {
+		Assert.assertEquals("Unknown Artist", mp3Untagged.getArtistTitle());
 	}
 	
 	@Test
-	public void testAlbumArtistTitleForSongWithNoTag() {
-		Assert.assertEquals("Unknown Artist", songWithNoTag.getAlbumArtistTitle());
+	public void testAlbumTitleForMp3Untagged() {
+		Assert.assertEquals("Unknown Album", mp3Untagged.getAlbumTitle());
+	}
+	
+	@Test
+	public void testAlbumArtistTitleForMp3Untagged() {
+		Assert.assertEquals("Unknown Artist", mp3Untagged.getAlbumArtistTitle());
 	}
 	
 	@Test
 	public void testNumberOfSeconds() {
-		Assert.assertEquals(302, songWithTag.getNumberOfSeconds());
+		Assert.assertEquals(0, mp3Tagged.getNumberOfSeconds());
 	}
 
 }
