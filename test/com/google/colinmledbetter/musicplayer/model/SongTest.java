@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UnreadableSongException;
 
 public class SongTest {
@@ -12,7 +13,7 @@ public class SongTest {
 	private Song songWithNoTag;
 	
 	@Before
-	public void loadSong() throws UnreadableSongException {
+	public void loadSong() throws UnreadableSongException, CorruptSongException {
 		songWithTag = new Song("test-assets/Phlank_Document_1.mp3");
 		songWithNoTag = new Song("test-assets/sine440.wav");
 	}
@@ -53,13 +54,8 @@ public class SongTest {
 	}
 	
 	@Test
-	public void testFormattedTrackLengthForSongWithSeconds() {
-		Assert.assertEquals("0", songWithNoTag.getFormattedTrackLength());
-	}
-	
-	@Test
-	public void testFormattedTrackLengthForSongWithMinutes() {
-		Assert.assertEquals("5:02", songWithTag.getFormattedTrackLength());
+	public void testNumberOfSeconds() {
+		Assert.assertEquals(302, songWithTag.getNumberOfSeconds());
 	}
 
 }
