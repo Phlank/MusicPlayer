@@ -13,6 +13,7 @@ import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UnreadableSongException;
 
 public class Song {
@@ -31,14 +32,14 @@ public class Song {
 	private int numberOfMinutes;
 	private int numberOfSeconds;
 
-	public Song(String filepath) throws UnreadableSongException {
+	public Song(String filepath) throws UnreadableSongException, CorruptSongException {
 		AudioFile file;
 		try {
 			file = AudioFileIO.read(new File(filepath));
 			tag = file.getTag();
 			header = file.getAudioHeader();
 		} catch (TagException | InvalidAudioFrameException e) {
-			throw new UnreadableSongException(CORRUPT_MESSAGE);
+			throw new CorruptSongException(CORRUPT_MESSAGE);
 		} catch (CannotReadException | IOException | ReadOnlyFileException e) {
 			throw new UnreadableSongException(UNREADABLE_MESSAGE);
 		}
