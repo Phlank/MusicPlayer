@@ -1,14 +1,14 @@
 package com.google.colinmledbetter.musicplayer.model.exceptions;
 
-public class UnreadableSongException extends Exception {
+public class UninteractableSongException extends Exception {
 
 	private static final long serialVersionUID = -2926990969424139935L;
 
-	public UnreadableSongException() {
+	public UninteractableSongException() {
 		super();
 	}
 	
-	public UnreadableSongException(String message) {
+	public UninteractableSongException(String message) {
 		super(message);
 	}
 
