@@ -132,13 +132,13 @@ public class SongTest {
 	}
 
 	@Test(expected = UninteractableSongException.class)
-	public void loadWavTaggedThrowsUnreadableSongException()
+	public void loadWavTaggedThrowsUninteractableSongException()
 			throws UninteractableSongException, CorruptSongException {
 		new Song("test-assets/sine440tagged.wav");
 	}
 
 	@Test(expected = UninteractableSongException.class)
-	public void loadNonSongFile()
+	public void loadNonSongFileThrowsUninteractableSongException()
 			throws UninteractableSongException, CorruptSongException {
 		new Song("test-assets/notasong.txt");
 	}
