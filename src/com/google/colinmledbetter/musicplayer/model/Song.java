@@ -45,6 +45,7 @@ public class Song {
 			invalidSongYears = Lists.newArrayList("0", "-1", "");
 	//formatter:on
 
+	private String filepath;
 	private String songTitle;
 	private String artistTitle;
 	private String albumTitle;
@@ -54,9 +55,10 @@ public class Song {
 	private String songYear;
 	private int songTime;
 
-	public Song(String filepath) throws UninteractableSongException,
-			CorruptSongException {
+	public Song(String filepath)
+			throws UninteractableSongException, CorruptSongException {
 		try {
+			this.filepath = filepath;
 			AudioFile file = AudioFileIO.read(new File(filepath));
 			loadInfoFromTag(file.getTag());
 			loadInfoFromHeader(file.getAudioHeader());
@@ -97,9 +99,7 @@ public class Song {
 			} else {
 				return onInvalid;
 			}
-		} catch (UnsupportedOperationException e) {
-			return onInvalid;
-		} catch (NullPointerException e) {
+		} catch (UnsupportedOperationException | NullPointerException e) {
 			return onInvalid;
 		}
 	}
@@ -118,34 +118,38 @@ public class Song {
 		songTime = header.getTrackLength();
 	}
 	
+	public String getFilepath() {
+		return filepath;
+	}
+
 	public String getSongTitle() {
 		return songTitle;
 	}
-	
+
 	public String getArtistTitle() {
 		return artistTitle;
 	}
-	
+
 	public String getAlbumTitle() {
 		return albumTitle;
 	}
-	
+
 	public String getAlbumArtistTitle() {
 		return albumArtistTitle;
 	}
-	
+
 	public String getSongNumber() {
 		return songNumber;
 	}
-	
+
 	public String getSongDiskNumber() {
 		return songDiskNumber;
 	}
-	
+
 	public String getSongYear() {
 		return songYear;
 	}
-	
+
 	public int getSongTimeInSeconds() {
 		return songTime;
 	}
