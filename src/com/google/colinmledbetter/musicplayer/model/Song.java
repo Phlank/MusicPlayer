@@ -1,5 +1,6 @@
 package com.google.colinmledbetter.musicplayer.model;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -20,30 +21,36 @@ import com.google.common.collect.Lists;
 
 public class Song {
 
-	//formatter:off
-	private static final String
-			UNREADABLE_MESSAGE = "File either does not exist or is unreadable: ",
-			UNWRITABLE_MESSAGE = "The application has no write access: ",
-			INVALID_TAG_MESSAGE = "The tag for this file was corrupt: ",
-			INVALID_FRAME_MESSAGE = "The audio frame for this file was corrupt: ";
+	private static final String UNREADABLE_MESSAGE =
+			"File either does not exist or is unreadable: ";
+	private static final String UNWRITABLE_MESSAGE =
+			"The application has no write access: ";
+	private static final String INVALID_TAG_MESSAGE =
+			"The tag for this file was corrupt: ";
+	private static final String INVALID_FRAME_MESSAGE =
+			"The audio frame for this file was corrupt: ";
 
-	private static final String
-			UNKNOWN_SONG_TITLE = "Unknown Song",
-			UNKNOWN_ARTIST_TITLE = "Unknown Artist",
-			UNKNOWN_ALBUM_TITLE = "Unknown Album",
-			UNKNOWN_SONG_NUMBER = "",
-			UNKNOWN_SONG_DISK_NUMBER = "",
-			UNKNOWN_SONG_YEAR = "Unknown Year";
+	private static final String UNKNOWN_SONG_TITLE = "Unknown Song";
+	private static final String UNKNOWN_ARTIST_TITLE = "Unknown Artist";
+	private static final String UNKNOWN_ALBUM_TITLE = "Unknown Album";
+	private static final String UNKNOWN_SONG_NUMBER = "";
+	private static final String UNKNOWN_SONG_DISK_NUMBER = "";
+	private static final String UNKNOWN_SONG_YEAR = "Unknown Year";
 
-	private static final List<String>
-			invalidSongTitles = Lists.newArrayList(""),
-			invalidArtistTitles = Lists.newArrayList(""),
-			invalidAlbumTitles = Lists.newArrayList(""), //
-			invalidAlbumArtistTitles = Lists.newArrayList(""),
-			invalidSongNumbers = Lists.newArrayList("0", "-1"),
-			invalidSongDiskNumbers = Lists.newArrayList("0", "-1"),
-			invalidSongYears = Lists.newArrayList("0", "-1", "");
-	//formatter:on
+	private static final List<String> invalidSongTitles = //
+			Lists.newArrayList("");
+	private static final List<String> invalidArtistTitles = //
+			Lists.newArrayList("");
+	private static final List<String> invalidAlbumTitles = //
+			Lists.newArrayList("");
+	private static final List<String> invalidAlbumArtistTitles = //
+			Lists.newArrayList("");
+	private static final List<String> invalidSongNumbers = //
+			Lists.newArrayList("0", "-1");
+	private static final List<String> invalidSongDiskNumbers = //
+			Lists.newArrayList("0", "-1");
+	private static final List<String> invalidSongYears = //
+			Lists.newArrayList("0", "-1", "");
 
 	private String filepath;
 	private String songTitle;
@@ -54,6 +61,7 @@ public class Song {
 	private String songDiskNumber;
 	private String songYear;
 	private int songTime;
+	private BufferedImage artwork;
 
 	public Song(String filepath)
 			throws UninteractableSongException, CorruptSongException {
@@ -74,6 +82,11 @@ public class Song {
 	}
 
 	private void loadInfoFromTag(Tag tag) {
+		loadSongFields(tag);
+		loadArtwork(tag);
+	}
+
+	private void loadSongFields(Tag tag) {
 		songTitle = loadFieldKeyFromTag(FieldKey.TITLE, tag, //
 				invalidSongTitles, UNKNOWN_SONG_TITLE);
 		artistTitle = loadFieldKeyFromTag(FieldKey.ARTIST, tag, //
@@ -114,10 +127,18 @@ public class Song {
 		return true;
 	}
 
+	private void loadArtwork(Tag tag) {
+		try {
+			artwork = (BufferedImage) tag.getFirstArtwork().getImage();
+		} catch (IOException e) {
+			artwork = null;
+		}
+	}
+
 	private void loadInfoFromHeader(AudioHeader header) {
 		songTime = header.getTrackLength();
 	}
-	
+
 	public String getFilepath() {
 		return filepath;
 	}
@@ -152,6 +173,10 @@ public class Song {
 
 	public int getSongTimeInSeconds() {
 		return songTime;
+	}
+
+	public BufferedImage getArtworkAsBufferedImage() {
+		return artwork;
 	}
 
 }
