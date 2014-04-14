@@ -5,9 +5,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
+import org.jaudiotagger.tag.images.Artwork;
+import org.jaudiotagger.tag.images.ArtworkFactory;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
@@ -17,6 +21,7 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 public class Song {
@@ -61,7 +66,7 @@ public class Song {
 	private String songDiskNumber;
 	private String songYear;
 	private int songTime;
-	private BufferedImage artwork;
+	private SongFormat songFormat;
 
 	public Song(String filepath)
 			throws UninteractableSongException, CorruptSongException {
@@ -83,7 +88,6 @@ public class Song {
 
 	private void loadInfoFromTag(Tag tag) {
 		loadSongFields(tag);
-		loadArtwork(tag);
 	}
 
 	private void loadSongFields(Tag tag) {
@@ -127,16 +131,16 @@ public class Song {
 		return true;
 	}
 
-	private void loadArtwork(Tag tag) {
-		try {
-			artwork = (BufferedImage) tag.getFirstArtwork().getImage();
-		} catch (IOException e) {
-			artwork = null;
-		}
-	}
-
 	private void loadInfoFromHeader(AudioHeader header) {
 		songTime = header.getTrackLength();
+		songFormat = getFormatFromHeader(header);
+	}
+	
+	private SongFormat getFormatFromHeader(AudioHeader header) {
+		System.out.println(header.getFormat());
+		String formatString = header.getFormat();
+		
+		
 	}
 
 	public String getFilepath() {
@@ -176,7 +180,69 @@ public class Song {
 	}
 
 	public BufferedImage getArtworkAsBufferedImage() {
-		return artwork;
+		try {
+			return (BufferedImage) AudioFileIO.read(new File(filepath))
+					.getTag().getFirstArtwork().getImage();
+		} catch (
+				IOException
+				| CannotReadException
+				| TagException
+				| ReadOnlyFileException
+				| InvalidAudioFrameException e) {
+			return null;
+		}
+	}
+
+	public void writeArtwork(BufferedImage image) throws UninteractableSongException {
+		try {
+			Tag tag = AudioFileIO.read(new File(filepath)).getTag();
+			tag.deleteArtworkField();
+			File temp = new File("test-assets/emptyfile");
+			ImageIO.write(image, "png", temp);
+			Artwork artwork = ArtworkFactory.createArtworkFromFile(temp);
+			tag.setField(artwork);
+			AudioFile file = AudioFileIO.read(new File(filepath));
+			file.setTag(tag);
+			AudioFileIO.write(file);
+		} catch (Exception e) {
+			throw new UninteractableSongException("Could not write artwork to file: " + filepath);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return getSongTitle();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj == null) {
+			return false;
+		} else if (obj.getClass().equals(Song.class)) {
+			Song other = (Song) obj;
+			return Objects.equal(this.filepath, other.filepath)
+					&& Objects.equal(this.songTitle, other.songTitle)
+					&& Objects.equal(this.artistTitle, other.artistTitle)
+					&& Objects.equal(this.albumTitle, other.albumTitle)
+					&& Objects.equal(this.albumArtistTitle,
+							other.albumArtistTitle)
+					&& Objects.equal(this.songNumber, other.songNumber)
+					&& Objects.equal(this.songDiskNumber, other.songDiskNumber)
+					&& Objects.equal(this.songYear, other.songYear)
+					&& Objects.equal(this.songTime, other.songTime);
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.filepath, this.songTitle,
+				this.artistTitle, this.albumTitle, this.albumArtistTitle,
+				this.songNumber, this.songDiskNumber, this.songYear,
+				this.songTime);
 	}
 
 }
