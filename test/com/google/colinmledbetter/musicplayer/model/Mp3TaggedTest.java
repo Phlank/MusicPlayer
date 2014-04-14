@@ -33,17 +33,17 @@ public class Mp3TaggedTest {
 
 	@Test
 	public void testAlbumArtistTitle() {
-		Assert.assertEquals("cledbetter", testSong.getAlbumArtistTitle());
+		Assert.assertEquals("cledbetter_album", testSong.getAlbumArtistTitle());
 	}
 
 	@Test
 	public void testSongNumber() {
-		Assert.assertEquals("1", testSong.getSongNumber());
+		Assert.assertEquals("01", testSong.getSongNumber());
 	}
 
 	@Test
 	public void testSongDiskNumber() {
-		Assert.assertEquals("", testSong.getSongDiskNumber());
+		Assert.assertEquals("1", testSong.getSongDiskNumber());
 	}
 
 	@Test
