@@ -133,14 +133,7 @@ public class Song {
 
 	private void loadInfoFromHeader(AudioHeader header) {
 		songTime = header.getTrackLength();
-		songFormat = getFormatFromHeader(header);
-	}
-	
-	private SongFormat getFormatFromHeader(AudioHeader header) {
-		System.out.println(header.getFormat());
-		String formatString = header.getFormat();
-		
-		
+		songFormat = SongFormat.extractFormatFromHeader(header);
 	}
 
 	public String getFilepath() {
@@ -179,21 +172,23 @@ public class Song {
 		return songTime;
 	}
 
-	public BufferedImage getArtworkAsBufferedImage() {
+	public SongFormat getSongFormat() {
+		return songFormat;
+	}
+
+	public BufferedImage getArtworkAsBufferedImage()
+			throws UninteractableSongException {
 		try {
 			return (BufferedImage) AudioFileIO.read(new File(filepath))
 					.getTag().getFirstArtwork().getImage();
-		} catch (
-				IOException
-				| CannotReadException
-				| TagException
-				| ReadOnlyFileException
-				| InvalidAudioFrameException e) {
-			return null;
+		} catch (Exception e) {
+			throw new UninteractableSongException(
+					"Could not read artwork from file: " + filepath);
 		}
 	}
 
-	public void writeArtwork(BufferedImage image) throws UninteractableSongException {
+	public void writeArtwork(BufferedImage image)
+			throws UninteractableSongException {
 		try {
 			Tag tag = AudioFileIO.read(new File(filepath)).getTag();
 			tag.deleteArtworkField();
@@ -205,7 +200,8 @@ public class Song {
 			file.setTag(tag);
 			AudioFileIO.write(file);
 		} catch (Exception e) {
-			throw new UninteractableSongException("Could not write artwork to file: " + filepath);
+			throw new UninteractableSongException(
+					"Could not write artwork to file: " + filepath);
 		}
 	}
 
