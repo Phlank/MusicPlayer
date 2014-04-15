@@ -4,7 +4,7 @@ import org.jaudiotagger.audio.AudioHeader;
 
 public enum SongFormat {
 
-	MP3, M4A, WAV, AIFF, FLAC, OGG, OTHER;
+	MP3, WAV, OTHER;
 
 	public static SongFormat extractFormatFromHeader(AudioHeader header) {
 		System.out.println(header.getFormat());
@@ -12,8 +12,6 @@ public enum SongFormat {
 			return WAV;
 		} else if (header.getFormat().startsWith("MPEG-1 Layer 3")) {
 			return MP3;
-		} else if (header.getFormat().startsWith("FLAC")) {
-			return FLAC;
 		} else {
 			return OTHER;
 		}
