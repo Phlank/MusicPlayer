@@ -1,7 +1,7 @@
 package com.google.colinmledbetter.musicplayer.model;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class MusicPlayerUtilsTest {
 	
