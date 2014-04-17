@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class WavUntaggedTest {
+public class FlacTaggedTest {
 
-	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440untagged.wav";
+	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440tagged.flac";
 
 	private Song testSong;
 
@@ -17,37 +17,37 @@ public class WavUntaggedTest {
 
 	@Test
 	public void testSongTitle() {
-		Assert.assertEquals("Unknown Song", testSong.getSongTitle());
+		Assert.assertEquals("sine440", testSong.getSongTitle());
 	}
 
 	@Test
 	public void testArtistTitle() {
-		Assert.assertEquals("Unknown Artist", testSong.getArtistTitle());
+		Assert.assertEquals("cledbetter", testSong.getArtistTitle());
 	}
 
 	@Test
 	public void testAlbumTitle() {
-		Assert.assertEquals("Unknown Album", testSong.getAlbumTitle());
+		Assert.assertEquals("musicplayertests", testSong.getAlbumTitle());
 	}
 
 	@Test
 	public void testAlbumArtistTitle() {
-		Assert.assertEquals("Unknown Artist", testSong.getAlbumArtistTitle());
+		Assert.assertEquals("cledbetter_album", testSong.getAlbumArtistTitle());
 	}
 
 	@Test
 	public void testSongNumber() {
-		Assert.assertEquals("", testSong.getSongNumber());
+		Assert.assertEquals("01", testSong.getSongNumber());
 	}
 
 	@Test
 	public void testSongDiskNumber() {
-		Assert.assertEquals("", testSong.getSongDiskNumber());
+		Assert.assertEquals("1", testSong.getSongDiskNumber());
 	}
 
 	@Test
 	public void testSongYear() {
-		Assert.assertEquals("Unknown Year", testSong.getSongYear());
+		Assert.assertEquals("2014", testSong.getSongYear());
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class WavUntaggedTest {
 
 	@Test
 	public void testSongFormat() {
-		Assert.assertEquals(SongFormat.WAV, testSong.getSongFormat());
+		Assert.assertEquals(SongFormat.FLAC, testSong.getSongFormat());
 	}
 
 }

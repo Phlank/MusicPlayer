@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class WavUntaggedTest {
+public class FlacUntaggedTest {
 
-	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440untagged.wav";
+	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440untagged.flac";
 
 	private Song testSong;
 
@@ -16,32 +16,32 @@ public class WavUntaggedTest {
 	}
 
 	@Test
-	public void testSongTitle() {
+	public void testSongTitleForMp3Untagged() {
 		Assert.assertEquals("Unknown Song", testSong.getSongTitle());
 	}
 
 	@Test
-	public void testArtistTitle() {
+	public void testArtistTitleForMp3Untagged() {
 		Assert.assertEquals("Unknown Artist", testSong.getArtistTitle());
 	}
 
 	@Test
-	public void testAlbumTitle() {
+	public void testAlbumTitleForMp3Untagged() {
 		Assert.assertEquals("Unknown Album", testSong.getAlbumTitle());
 	}
 
 	@Test
-	public void testAlbumArtistTitle() {
+	public void testAlbumArtistTitleForMp3Untagged() {
 		Assert.assertEquals("Unknown Artist", testSong.getAlbumArtistTitle());
 	}
 
 	@Test
-	public void testSongNumber() {
+	public void testSongNumberForMp3Untagged() {
 		Assert.assertEquals("", testSong.getSongNumber());
 	}
 
 	@Test
-	public void testSongDiskNumber() {
+	public void testSongDiskNumberForMp3Untagged() {
 		Assert.assertEquals("", testSong.getSongDiskNumber());
 	}
 
@@ -57,7 +57,7 @@ public class WavUntaggedTest {
 
 	@Test
 	public void testSongFormat() {
-		Assert.assertEquals(SongFormat.WAV, testSong.getSongFormat());
+		Assert.assertEquals(SongFormat.FLAC, testSong.getSongFormat());
 	}
 
 }

@@ -6,8 +6,7 @@ import org.junit.Test;
 
 public class Mp3UntaggedTest {
 
-	private static final String TEST_SONG_FILE_PATH =
-			"test-assets/sine440untagged.mp3";
+	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440untagged.mp3";
 
 	private Song testSong;
 

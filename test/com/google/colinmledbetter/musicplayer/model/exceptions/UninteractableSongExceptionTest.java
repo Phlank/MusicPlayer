@@ -9,13 +9,19 @@ public class UninteractableSongExceptionTest {
 	@Test(expected = UninteractableSongException.class)
 	public void loadWavTaggedThrowsUninteractableSongException()
 			throws UninteractableSongException, CorruptSongException {
-		new Song("test-assets/sine440tagged.wav");
+		new Song("test-assets/sine440tagged_uninteractable.wav");
 	}
 
 	@Test(expected = UninteractableSongException.class)
 	public void loadNonSongFileThrowsUninteractableSongException()
 			throws UninteractableSongException, CorruptSongException {
 		new Song("test-assets/notasong.txt");
+	}
+
+	@Test(expected = UninteractableSongException.class)
+	public void loadSongThatDoesNotExistThrowsException()
+			throws UninteractableSongException, CorruptSongException {
+		new Song("thisfiledoesnotexist");
 	}
 
 }
