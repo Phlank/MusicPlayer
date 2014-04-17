@@ -1,9 +1,8 @@
-package com.google.colinmledbetter.musicplayer.model;
+package com.google.colinmledbetter.musicplayer.model.exceptions;
 
 import org.junit.Test;
 
-import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
-import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
+import com.google.colinmledbetter.musicplayer.model.Song;
 
 public class UninteractableSongExceptionTest {
 
