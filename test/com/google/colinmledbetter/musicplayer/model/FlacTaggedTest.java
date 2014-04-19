@@ -37,7 +37,7 @@ public class FlacTaggedTest {
 
 	@Test
 	public void testSongNumber() {
-		Assert.assertEquals("01", testSong.getSongNumber());
+		Assert.assertEquals("02", testSong.getSongNumber());
 	}
 
 	@Test

@@ -176,14 +176,13 @@ public class Song {
 		return songFormat;
 	}
 
-	public BufferedImage getArtworkAsBufferedImage()
+	public BufferedImage getArtwork()
 			throws UninteractableSongException {
 		try {
 			return (BufferedImage) AudioFileIO.read(new File(filepath))
 					.getTag().getFirstArtwork().getImage();
 		} catch (Exception e) {
-			throw new UninteractableSongException(
-					"Could not read artwork from file: " + filepath);
+			return null;
 		}
 	}
 

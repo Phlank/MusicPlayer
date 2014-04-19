@@ -1,7 +1,17 @@
 package com.google.colinmledbetter.musicplayer.model;
 
-import java.util.List;
+public interface SongList extends Iterable<Song> {
 
-public interface SongList extends List<Song> {
+	public void addSong(Song song);
+
+	public void removeSong(Song song);
+
+	public Song getCurrentSong();
+
+	public Song previousSong();
+
+	public Song nextSong();
+
+	public int size();
 
 }
