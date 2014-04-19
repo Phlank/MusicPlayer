@@ -20,9 +20,21 @@ public class Album implements SongList {
 		songs = Lists.newArrayList();
 		currentIndex = 0;
 		addSong(song);
+		loadAlbumInfo(song);
+	}
+
+	private void loadAlbumInfo(Song song) {
 		title = song.getAlbumTitle();
 		artistTitle = song.getAlbumArtistTitle();
-		artwork = song.getArtwork();
+		loadArtwork(song);
+	}
+
+	private void loadArtwork(Song song) {
+		try {
+			artwork = song.getArtwork();
+		} catch (UninteractableSongException e) {
+			artwork = null;
+		}
 	}
 
 	@Override
@@ -87,7 +99,7 @@ public class Album implements SongList {
 	public String getArtist() {
 		return artistTitle;
 	}
-	
+
 	public BufferedImage getArtwork() {
 		return artwork;
 	}

@@ -24,4 +24,11 @@ public class UninteractableSongExceptionTest {
 		new Song("thisfiledoesnotexist");
 	}
 
+	@Test(expected = UninteractableSongException.class)
+	public void getSongArtworkOnSongWithNowArtworkThrowsException()
+			throws UninteractableSongException, CorruptSongException {
+		Song song = new Song("test-assets/sine440untagged.mp3");
+		song.getArtwork();
+	}
+
 }

@@ -26,14 +26,10 @@ import com.google.common.collect.Lists;
 
 public class Song {
 
-	private static final String UNREADABLE_MESSAGE =
-			"File either does not exist or is unreadable: ";
-	private static final String UNWRITABLE_MESSAGE =
-			"The application has no write access: ";
-	private static final String INVALID_TAG_MESSAGE =
-			"The tag for this file was corrupt: ";
-	private static final String INVALID_FRAME_MESSAGE =
-			"The audio frame for this file was corrupt: ";
+	private static final String UNREADABLE_MESSAGE = "File either does not exist or is unreadable: ";
+	private static final String UNWRITABLE_MESSAGE = "The application has no write access: ";
+	private static final String INVALID_TAG_MESSAGE = "The tag for this file was corrupt: ";
+	private static final String INVALID_FRAME_MESSAGE = "The audio frame for this file was corrupt: ";
 
 	private static final String UNKNOWN_SONG_TITLE = "Unknown Song";
 	private static final String UNKNOWN_ARTIST_TITLE = "Unknown Artist";
@@ -43,19 +39,19 @@ public class Song {
 	private static final String UNKNOWN_SONG_YEAR = "Unknown Year";
 
 	private static final List<String> invalidSongTitles = //
-			Lists.newArrayList("");
+	Lists.newArrayList("");
 	private static final List<String> invalidArtistTitles = //
-			Lists.newArrayList("");
+	Lists.newArrayList("");
 	private static final List<String> invalidAlbumTitles = //
-			Lists.newArrayList("");
+	Lists.newArrayList("");
 	private static final List<String> invalidAlbumArtistTitles = //
-			Lists.newArrayList("");
+	Lists.newArrayList("");
 	private static final List<String> invalidSongNumbers = //
-			Lists.newArrayList("0", "-1");
+	Lists.newArrayList("0", "-1");
 	private static final List<String> invalidSongDiskNumbers = //
-			Lists.newArrayList("0", "-1");
+	Lists.newArrayList("0", "-1");
 	private static final List<String> invalidSongYears = //
-			Lists.newArrayList("0", "-1", "");
+	Lists.newArrayList("0", "-1", "");
 
 	private String filepath;
 	private String songTitle;
@@ -68,8 +64,8 @@ public class Song {
 	private int songTime;
 	private SongFormat songFormat;
 
-	public Song(String filepath)
-			throws UninteractableSongException, CorruptSongException {
+	public Song(String filepath) throws UninteractableSongException,
+			CorruptSongException {
 		try {
 			this.filepath = filepath;
 			AudioFile file = AudioFileIO.read(new File(filepath));
@@ -176,13 +172,13 @@ public class Song {
 		return songFormat;
 	}
 
-	public BufferedImage getArtwork()
-			throws UninteractableSongException {
+	public BufferedImage getArtwork() throws UninteractableSongException {
 		try {
 			return (BufferedImage) AudioFileIO.read(new File(filepath))
 					.getTag().getFirstArtwork().getImage();
 		} catch (Exception e) {
-			return null;
+			throw new UninteractableSongException(
+					"Could not read artwork from file: " + filepath);
 		}
 	}
 
