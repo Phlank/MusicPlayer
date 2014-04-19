@@ -171,6 +171,34 @@ public class Song {
 	public SongFormat getSongFormat() {
 		return songFormat;
 	}
+	
+	public void setSongTitle(String songTitle) {
+		this.songTitle = songTitle;
+	}
+	
+	public void setArtistTitle(String artistTitle) {
+		this.artistTitle = artistTitle;
+	}
+	
+	public void setAlbumTitle(String albumTitle) {
+		this.albumTitle = albumTitle;
+	}
+	
+	public void setAlbumArtistTitle(String albumArtistTitle) {
+		this.albumArtistTitle = albumArtistTitle;
+	}
+	
+	public void setSongNumber(String songNumber) {
+		this.songNumber = songNumber;
+	}
+	
+	public void setSongDiskNumber(String songDiskNumber) {
+		this.songDiskNumber = songDiskNumber;
+	}
+	
+	public void setSongYear(String songYear) {
+		this.songYear = songYear;
+	}
 
 	public BufferedImage getArtwork() throws UninteractableSongException {
 		try {

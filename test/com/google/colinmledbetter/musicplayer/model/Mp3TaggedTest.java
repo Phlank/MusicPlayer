@@ -1,18 +1,27 @@
 package com.google.colinmledbetter.musicplayer.model;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 
 public class Mp3TaggedTest {
 
 	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440tagged.mp3";
 
 	private Song testSong;
+	private BufferedImage artwork;
 
 	@Before
 	public void loadSong() throws Exception {
 		testSong = new Song(TEST_SONG_FILE_PATH);
+		artwork = ImageIO.read(new File("test-assets/artwork.png"));
 	}
 
 	@Test
@@ -58,6 +67,13 @@ public class Mp3TaggedTest {
 	@Test
 	public void testSongFormat() {
 		Assert.assertEquals(SongFormat.MP3, testSong.getSongFormat());
+	}
+	
+	@Test
+	public void hasWritableAndReadableArtworkField()
+			throws UninteractableSongException {
+		testSong.writeArtwork(artwork);
+		Assert.assertNotEquals(testSong.getArtwork(), null);
 	}
 
 }
