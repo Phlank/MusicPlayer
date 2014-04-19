@@ -69,7 +69,7 @@ public class Album implements SongList {
 
 	@Override
 	public Song getCurrentSong() {
-		if (songs.size() > 0) {
+		if (!songs.isEmpty()) {
 			return songs.get(currentIndex);
 		} else {
 			return null;
@@ -79,7 +79,7 @@ public class Album implements SongList {
 	@Override
 	public Song nextSong() {
 		currentIndex++;
-		if (currentIndex < songs.size()) {
+		if (currentIndex < size()) {
 			return songs.get(currentIndex);
 		} else {
 			currentIndex--;
