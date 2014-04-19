@@ -29,12 +29,12 @@ public class AlbumTest {
 
 	@Test
 	public void testOnInitializeArtistIsLoaded() {
-		Assert.assertEquals("cledbetter_album", album.getArtist());
+		Assert.assertEquals("cledbetter_album", album.getArtistTitle());
 	}
 
 	@Test
 	public void testOnInitializeCurrentSongIsFirstSong() {
-		Assert.assertEquals(album.getCurrentSong(), firstSong);
+		Assert.assertEquals(firstSong, album.getCurrentSong());
 	}
 
 	@Test
@@ -71,6 +71,17 @@ public class AlbumTest {
 		album.nextSong();
 		album.removeSong(lastSong);
 		Assert.assertEquals(firstSong, album.getCurrentSong());
+	}
+	
+	@Test
+	public void testReturnsFalseIfTryingToAddSongThatDoesNotMatchAlbumInfo() throws UninteractableSongException, CorruptSongException {
+		Song song = new Song("test-assets/sine440untagged.mp3");
+		Assert.assertFalse(album.addSong(song));
+	}
+	
+	@Test
+	public void testReturnsFalseIfTryingToAddSongThatIsAlreadyInAlbum() {
+		Assert.assertFalse(album.addSong(firstSong));
 	}
 
 }

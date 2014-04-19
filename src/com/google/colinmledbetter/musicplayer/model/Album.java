@@ -19,7 +19,7 @@ public class Album implements SongList {
 	public Album(Song song) throws UninteractableSongException {
 		songs = Lists.newArrayList();
 		currentIndex = 0;
-		addSong(song);
+		songs.add(song);
 		loadAlbumInfo(song);
 	}
 
@@ -43,17 +43,28 @@ public class Album implements SongList {
 	}
 
 	@Override
-	public void addSong(Song song) {
-		songs.add(song);
+	public boolean addSong(Song song) {
+		if (songInfoMatchesAlbumInfo(song) && !songs.contains(song)) {
+			songs.add(song);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean songInfoMatchesAlbumInfo(Song song) {
+		return song.getAlbumTitle().equals(title)
+				&& song.getAlbumArtistTitle().equals(artistTitle);
 	}
 
 	@Override
-	public void removeSong(Song song) {
-		songs.remove(song);
+	public boolean removeSong(Song song) {
+		boolean success = songs.remove(song);
 		songs.trimToSize();
 		if (currentIndex == songs.size()) {
 			currentIndex--;
 		}
+		return success;
 	}
 
 	@Override
@@ -96,7 +107,7 @@ public class Album implements SongList {
 		return title;
 	}
 
-	public String getArtist() {
+	public String getArtistTitle() {
 		return artistTitle;
 	}
 
