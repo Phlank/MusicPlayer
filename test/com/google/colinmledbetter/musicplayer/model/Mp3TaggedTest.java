@@ -73,7 +73,8 @@ public class Mp3TaggedTest {
 
 	@Test
 	public void hasWritableAndReadableArtworkField()
-			throws UninteractableSongException, IOException,
+			throws UninteractableSongException,
+			IOException,
 			CorruptSongException {
 		testSong.writeArtwork(artwork);
 		Assert.assertNotEquals(testSong.getArtwork(), null);

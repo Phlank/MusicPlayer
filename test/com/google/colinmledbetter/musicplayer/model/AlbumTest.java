@@ -14,7 +14,8 @@ public class AlbumTest {
 	Song lastSong;
 
 	@Before
-	public void loadSongsIntoAlbum() throws UninteractableSongException,
+	public void loadSongsIntoAlbum()
+			throws UninteractableSongException,
 			CorruptSongException {
 		firstSong = new Song("test-assets/sine440tagged.mp3");
 		lastSong = new Song("test-assets/sine440tagged.flac");
@@ -72,18 +73,20 @@ public class AlbumTest {
 		album.removeSong(lastSong);
 		Assert.assertEquals(firstSong, album.getCurrentSong());
 	}
-	
+
 	@Test
-	public void testReturnsFalseIfTryingToAddSongThatDoesNotMatchAlbumInfo() throws UninteractableSongException, CorruptSongException {
+	public void testReturnsFalseIfTryingToAddSongThatDoesNotMatchAlbumInfo()
+			throws UninteractableSongException,
+			CorruptSongException {
 		Song song = new Song("test-assets/sine440untagged.mp3");
 		Assert.assertFalse(album.addSong(song));
 	}
-	
+
 	@Test
 	public void testReturnsFalseIfTryingToAddSongThatIsAlreadyInAlbum() {
 		Assert.assertFalse(album.addSong(firstSong));
 	}
-	
+
 	@Test
 	public void testIsIterable() {
 		boolean firstSongFound = false;

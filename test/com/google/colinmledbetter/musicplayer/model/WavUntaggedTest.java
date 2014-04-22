@@ -72,13 +72,16 @@ public class WavUntaggedTest {
 	}
 
 	@Test(expected = UninteractableSongException.class)
-	public void testHasUnwritableArtwork() throws UninteractableSongException,
-			IOException, CorruptSongException {
+	public void testHasUnwritableArtwork()
+			throws UninteractableSongException,
+			IOException,
+			CorruptSongException {
 		testSong.writeArtwork(artwork);
 	}
 
 	@Test(expected = UninteractableSongException.class)
-	public void testHasUnreadableArtwork() throws UninteractableSongException,
+	public void testHasUnreadableArtwork()
+			throws UninteractableSongException,
 			CorruptSongException {
 		testSong.getArtwork();
 	}

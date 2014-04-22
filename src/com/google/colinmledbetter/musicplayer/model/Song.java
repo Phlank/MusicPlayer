@@ -110,9 +110,8 @@ public class Song {
 	}
 
 	private static final String UNREADABLE_MESSAGE = "File either does not exist or is unreadable: ";
-	private static final String UNWRITABLE_MESSAGE = "The application has no write access: ";
-	private static final String INVALID_TAG_MESSAGE = "The tag for this file was corrupt: ";
-	private static final String INVALID_FRAME_MESSAGE = "The audio frame for this file was corrupt: ";
+	private static final String UNWRITEABLE_MESSAGE = "The application has no write access to the file: ";
+	private static final String CORRUPT_MESSAGE = "The audio file is corrupt: ";
 
 	private static final String ARTWORK_READ_UNREADABLE_MESSAGE = "Could not read the artwork from this file: ";
 	private static final String ARTWORK_READ_CORRUPT_MESSAGE = "The audio file is corrupted and unable to be opened for reading artwork: ";
@@ -180,22 +179,16 @@ public class Song {
 			AudioFile file = AudioFileIO.read(new File(filepath));
 			loadFieldsFromTag(file.getTag());
 			loadInfoFromHeader(file.getAudioHeader());
-		} catch (CannotReadException | IOException e) {
-			throw new UninteractableSongException(UNREADABLE_MESSAGE + filepath);
-		} catch (ReadOnlyFileException e) {
-			throw new UninteractableSongException(UNWRITABLE_MESSAGE + filepath);
-		} catch (TagException e) {
-			throw new CorruptSongException(INVALID_TAG_MESSAGE + filepath);
-		} catch (InvalidAudioFrameException e) {
-			throw new CorruptSongException(INVALID_FRAME_MESSAGE + filepath);
+		} catch (CannotReadException | IOException | ReadOnlyFileException e) {
+			String message = UNREADABLE_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		} catch (TagException | InvalidAudioFrameException e) {
+			String message = CORRUPT_MESSAGE + filepath;
+			throw new CorruptSongException(message);
 		}
 	}
 
 	private void loadFieldsFromTag(Tag tag) {
-		loadFields(tag);
-	}
-
-	private void loadFields(Tag tag) {
 		title = loadFieldKeyFromTag(FieldKey.TITLE, tag, //
 				INVALID_TITLES, UNKNOWN_SONG_TITLE);
 		artistTitle = loadFieldKeyFromTag(FieldKey.ARTIST, tag, //
@@ -286,12 +279,18 @@ public class Song {
 		return headerFormat;
 	}
 
-	public void setTitle(String songTitle) {
-		this.title = songTitle;
+	public void setTitle(String title)
+			throws UninteractableSongException,
+			CorruptSongException {
+		this.title = title;
+		writeFieldToTag(FieldKey.TITLE, title);
 	}
 
-	public void setArtistTitle(String artistTitle) {
+	public void setArtistTitle(String artistTitle)
+			throws UninteractableSongException,
+			CorruptSongException {
 		this.artistTitle = artistTitle;
+		writeFieldToTag(FieldKey.ARTIST, artistTitle);
 	}
 
 	public void setAlbumTitle(String albumTitle) {
@@ -302,19 +301,46 @@ public class Song {
 		this.albumArtistTitle = albumArtistTitle;
 	}
 
-	public void setNumber(String songNumber) {
-		this.number = songNumber;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
-	public void setDiskNumber(String songDiskNumber) {
-		this.diskNumber = songDiskNumber;
+	public void setDiskNumber(String diskNumber) {
+		this.diskNumber = diskNumber;
 	}
 
-	public void setYear(String songYear) {
-		this.year = songYear;
+	public void setYear(String year) {
+		this.year = year;
 	}
 
-	public BufferedImage getArtwork() throws UninteractableSongException,
+	private void writeFieldToTag(FieldKey key, String value)
+			throws UninteractableSongException,
+			CorruptSongException {
+		AudioFile file;
+		try {
+			file = AudioFileIO.read(new File(filepath));
+			Tag tag = file.getTag();
+			tag.deleteField(key);
+			tag.createField(key, value);
+			file.setTag(tag);
+			AudioFileIO.write(file);
+		} catch (UnsupportedOperationException e) {
+			String message = UNREADABLE_MESSAGE;
+			throw new UninteractableSongException(message);
+		} catch (CannotReadException | ReadOnlyFileException | IOException e) {
+			String message = UNREADABLE_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		} catch (TagException | InvalidAudioFrameException e) {
+			String message = CORRUPT_MESSAGE;
+			throw new CorruptSongException(message);
+		} catch (CannotWriteException e) {
+			String message = UNWRITEABLE_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	public BufferedImage getArtwork()
+			throws UninteractableSongException,
 			CorruptSongException {
 		try {
 			return (BufferedImage) AudioFileIO.read(new File(filepath))
@@ -333,7 +359,8 @@ public class Song {
 	}
 
 	public void writeArtwork(BufferedImage image)
-			throws UninteractableSongException, IOException,
+			throws UninteractableSongException,
+			IOException,
 			CorruptSongException {
 		Tag tag;
 		File writeFile;
