@@ -2,7 +2,7 @@ package com.google.colinmledbetter.musicplayer.model;
 
 import java.util.Comparator;
 
-public interface Songlist extends Iterable<Song> {
+public interface SongList extends Iterable<Song> {
 
 	public boolean addSong(Song song);
 

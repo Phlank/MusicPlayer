@@ -9,7 +9,7 @@ import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongExcept
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 import com.google.common.collect.Lists;
 
-public class Album implements Songlist {
+public class Album implements SongList {
 
 	private ArrayList<Song> songs;
 	private int currentIndex;
