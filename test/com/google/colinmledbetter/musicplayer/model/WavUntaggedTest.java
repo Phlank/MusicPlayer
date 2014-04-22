@@ -2,6 +2,7 @@ package com.google.colinmledbetter.musicplayer.model;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -9,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 
 public class WavUntaggedTest {
@@ -26,7 +28,7 @@ public class WavUntaggedTest {
 
 	@Test
 	public void testSongTitle() {
-		Assert.assertEquals("Unknown Song", testSong.getSongTitle());
+		Assert.assertEquals("Unknown Song", testSong.getTitle());
 	}
 
 	@Test
@@ -46,36 +48,38 @@ public class WavUntaggedTest {
 
 	@Test
 	public void testSongNumber() {
-		Assert.assertEquals("", testSong.getSongNumber());
+		Assert.assertEquals("", testSong.getNumber());
 	}
 
 	@Test
 	public void testSongDiskNumber() {
-		Assert.assertEquals("", testSong.getSongDiskNumber());
+		Assert.assertEquals("", testSong.getDiskNumber());
 	}
 
 	@Test
 	public void testSongYear() {
-		Assert.assertEquals("Unknown Year", testSong.getSongYear());
+		Assert.assertEquals("Unknown Year", testSong.getYear());
 	}
 
 	@Test
 	public void testSongTimeInSeconds() {
-		Assert.assertEquals(0, testSong.getSongTimeInSeconds());
+		Assert.assertEquals(0, testSong.getLength());
 	}
 
 	@Test
 	public void testSongFormat() {
-		Assert.assertEquals(SongFormat.WAV, testSong.getSongFormat());
+		Assert.assertEquals(SongFormat.WAV, testSong.getFormat());
 	}
-	
-	@Test (expected = UninteractableSongException.class)
-	public void testHasUnwritableArtwork() throws UninteractableSongException {
+
+	@Test(expected = UninteractableSongException.class)
+	public void testHasUnwritableArtwork() throws UninteractableSongException,
+			IOException, CorruptSongException {
 		testSong.writeArtwork(artwork);
 	}
-	
-	@Test (expected = UninteractableSongException.class)
-	public void testHasUnreadableArtwork() throws UninteractableSongException {
+
+	@Test(expected = UninteractableSongException.class)
+	public void testHasUnreadableArtwork() throws UninteractableSongException,
+			CorruptSongException {
 		testSong.getArtwork();
 	}
 

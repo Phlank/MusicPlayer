@@ -17,7 +17,7 @@ public class FlacUntaggedTest {
 
 	@Test
 	public void testSongTitleForMp3Untagged() {
-		Assert.assertEquals("Unknown Song", testSong.getSongTitle());
+		Assert.assertEquals("Unknown Song", testSong.getTitle());
 	}
 
 	@Test
@@ -37,27 +37,27 @@ public class FlacUntaggedTest {
 
 	@Test
 	public void testSongNumberForMp3Untagged() {
-		Assert.assertEquals("", testSong.getSongNumber());
+		Assert.assertEquals("", testSong.getNumber());
 	}
 
 	@Test
 	public void testSongDiskNumberForMp3Untagged() {
-		Assert.assertEquals("", testSong.getSongDiskNumber());
+		Assert.assertEquals("", testSong.getDiskNumber());
 	}
 
 	@Test
 	public void testSongYear() {
-		Assert.assertEquals("Unknown Year", testSong.getSongYear());
+		Assert.assertEquals("Unknown Year", testSong.getYear());
 	}
 
 	@Test
 	public void testSongTimeInSeconds() {
-		Assert.assertEquals(0, testSong.getSongTimeInSeconds());
+		Assert.assertEquals(0, testSong.getLength());
 	}
 
 	@Test
 	public void testSongFormat() {
-		Assert.assertEquals(SongFormat.FLAC, testSong.getSongFormat());
+		Assert.assertEquals(SongFormat.FLAC, testSong.getFormat());
 	}
 
 }

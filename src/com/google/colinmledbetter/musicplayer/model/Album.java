@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 import com.google.common.collect.Lists;
 
@@ -32,7 +33,7 @@ public class Album implements SongList {
 	private void loadArtwork(Song song) {
 		try {
 			artwork = song.getArtwork();
-		} catch (UninteractableSongException e) {
+		} catch (UninteractableSongException | CorruptSongException e) {
 			artwork = null;
 		}
 	}

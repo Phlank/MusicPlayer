@@ -18,7 +18,17 @@ public class SongTest {
 	public void loadSong() throws UninteractableSongException,
 			CorruptSongException, IOException {
 		song = new Song("test-assets/sine440tagged.mp3");
-		copy = new Song("test-assets/sine440tagged.mp3");
+		copy = new Song.Builder().setFilepath(song.getFilepath())//
+				.setTitle(song.getTitle())//
+				.setArtistTitle(song.getArtistTitle())//
+				.setAlbumTitle(song.getAlbumTitle())//
+				.setAlbumArtistTitle(song.getAlbumArtistTitle())//
+				.setNumber(song.getNumber())//
+				.setDiskNumber(song.getDiskNumber())//
+				.setYear(song.getYear())//
+				.setLength(song.getLength()+"")//
+				.setHeaderFormat(song.getHeaderFormat())//
+				.build();
 	}
 
 	@Test
@@ -38,7 +48,7 @@ public class SongTest {
 
 	@Test
 	public void songNotEqualToSongWithDifferentTitle() {
-		copy.setSongTitle("Not the same");
+		copy.setTitle("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
 
@@ -62,20 +72,25 @@ public class SongTest {
 
 	@Test
 	public void songNotEqualToSongWithDifferentSongNumber() {
-		copy.setSongNumber("Not the same");
+		copy.setNumber("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
 
 	@Test
 	public void songNotEqualToSongWithDifferentSongDiskNumber() {
-		copy.setSongDiskNumber("Not the same");
+		copy.setDiskNumber("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
 
 	@Test
 	public void songNotEqualToSongWithDifferentYear() {
-		copy.setSongYear("Not the same");
+		copy.setYear("Not the same");
 		Assert.assertFalse(song.equals(copy));
+	}
+	
+	@Test
+	public void songNotEqualToObjectOfDifferentClass() {
+		Assert.assertFalse(song.equals(""));
 	}
 
 	@Test

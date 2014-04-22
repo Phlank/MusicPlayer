@@ -2,6 +2,7 @@ package com.google.colinmledbetter.musicplayer.model;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -9,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 
 public class FlacTaggedTest {
@@ -26,7 +28,7 @@ public class FlacTaggedTest {
 
 	@Test
 	public void testSongTitle() {
-		Assert.assertEquals("sine440", testSong.getSongTitle());
+		Assert.assertEquals("sine440", testSong.getTitle());
 	}
 
 	@Test
@@ -46,32 +48,33 @@ public class FlacTaggedTest {
 
 	@Test
 	public void testSongNumber() {
-		Assert.assertEquals("02", testSong.getSongNumber());
+		Assert.assertEquals("02", testSong.getNumber());
 	}
 
 	@Test
 	public void testSongDiskNumber() {
-		Assert.assertEquals("1", testSong.getSongDiskNumber());
+		Assert.assertEquals("1", testSong.getDiskNumber());
 	}
 
 	@Test
 	public void testSongYear() {
-		Assert.assertEquals("2014", testSong.getSongYear());
+		Assert.assertEquals("2014", testSong.getYear());
 	}
 
 	@Test
 	public void testSongTimeInSeconds() {
-		Assert.assertEquals(0, testSong.getSongTimeInSeconds());
+		Assert.assertEquals(0, testSong.getLength());
 	}
 
 	@Test
 	public void testSongFormat() {
-		Assert.assertEquals(SongFormat.FLAC, testSong.getSongFormat());
+		Assert.assertEquals(SongFormat.FLAC, testSong.getFormat());
 	}
-	
+
 	@Test
 	public void hasWritableAndReadableArtworkField()
-			throws UninteractableSongException {
+			throws UninteractableSongException, IOException,
+			CorruptSongException {
 		testSong.writeArtwork(artwork);
 		Assert.assertNotEquals(testSong.getArtwork(), null);
 	}

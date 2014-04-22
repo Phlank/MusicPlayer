@@ -83,5 +83,19 @@ public class AlbumTest {
 	public void testReturnsFalseIfTryingToAddSongThatIsAlreadyInAlbum() {
 		Assert.assertFalse(album.addSong(firstSong));
 	}
+	
+	@Test
+	public void testIsIterable() {
+		boolean firstSongFound = false;
+		boolean lastSongFound = false;
+		for (Song song : album) {
+			if (song.equals(firstSong)) {
+				firstSongFound = true;
+			} else if (song.equals(lastSong)) {
+				lastSongFound = true;
+			}
+		}
+		Assert.assertEquals(true, firstSongFound && lastSongFound);
+	}
 
 }
