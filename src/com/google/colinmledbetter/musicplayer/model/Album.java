@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import com.google.colinmledbetter.musicplayer.model.comparable.SongNumberComparable;
 import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 import com.google.common.collect.Lists;
@@ -48,6 +49,7 @@ public class Album implements SongList {
 	public boolean addSong(Song song) {
 		if (songInfoMatchesAlbumInfo(song) && !songs.contains(song)) {
 			songs.add(song);
+			sort(new SongNumberComparable());
 			return true;
 		} else {
 			return false;
