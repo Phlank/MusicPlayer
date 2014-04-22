@@ -14,7 +14,9 @@ import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.CannotWriteException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.FieldDataInvalidException;
 import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.images.Artwork;
@@ -279,18 +281,12 @@ public class Song {
 		return headerFormat;
 	}
 
-	public void setTitle(String title)
-			throws UninteractableSongException,
-			CorruptSongException {
+	public void setTitle(String title) {
 		this.title = title;
-		writeFieldToTag(FieldKey.TITLE, title);
 	}
 
-	public void setArtistTitle(String artistTitle)
-			throws UninteractableSongException,
-			CorruptSongException {
+	public void setArtistTitle(String artistTitle) {
 		this.artistTitle = artistTitle;
-		writeFieldToTag(FieldKey.ARTIST, artistTitle);
 	}
 
 	public void setAlbumTitle(String albumTitle) {
@@ -313,15 +309,14 @@ public class Song {
 		this.year = year;
 	}
 
-	private void writeFieldToTag(FieldKey key, String value)
+	public void writeFields()
 			throws UninteractableSongException,
 			CorruptSongException {
 		AudioFile file;
 		try {
 			file = AudioFileIO.read(new File(filepath));
 			Tag tag = file.getTag();
-			tag.deleteField(key);
-			tag.createField(key, value);
+			rewriteTagFields(tag);
 			file.setTag(tag);
 			AudioFileIO.write(file);
 		} catch (UnsupportedOperationException e) {
@@ -337,6 +332,25 @@ public class Song {
 			String message = UNWRITEABLE_MESSAGE + filepath;
 			throw new UninteractableSongException(message);
 		}
+	}
+
+	private void rewriteTagFields(Tag tag)
+			throws KeyNotFoundException,
+			FieldDataInvalidException {
+		tag.deleteField(FieldKey.TITLE);
+		tag.createField(FieldKey.TITLE, title);
+		tag.deleteField(FieldKey.ARTIST);
+		tag.createField(FieldKey.ARTIST, artistTitle);
+		tag.deleteField(FieldKey.ALBUM);
+		tag.createField(FieldKey.ALBUM, albumTitle);
+		tag.deleteField(FieldKey.ALBUM_ARTIST);
+		tag.createField(FieldKey.ALBUM_ARTIST, albumArtistTitle);
+		tag.deleteField(FieldKey.TRACK);
+		tag.createField(FieldKey.TRACK, number);
+		tag.deleteField(FieldKey.DISC_NO);
+		tag.createField(FieldKey.DISC_NO, diskNumber);
+		tag.deleteField(FieldKey.YEAR);
+		tag.createField(FieldKey.YEAR, year);
 	}
 
 	public BufferedImage getArtwork()
