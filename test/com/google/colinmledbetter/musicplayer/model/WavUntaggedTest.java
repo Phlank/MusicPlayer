@@ -79,11 +79,11 @@ public class WavUntaggedTest {
 		testSong.writeArtwork(artwork);
 	}
 
-	@Test(expected = UninteractableSongException.class)
-	public void testHasUnreadableArtwork()
+	@Test
+	public void testGetArtworkReturnsNull()
 			throws UninteractableSongException,
 			CorruptSongException {
-		testSong.getArtwork();
+		Assert.assertTrue(testSong.getArtwork() == null);
 	}
 
 }

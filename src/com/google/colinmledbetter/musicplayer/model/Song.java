@@ -324,6 +324,7 @@ public class Song {
 			file = AudioFileIO.read(new File(filepath));
 			tag = file.getTag();
 			rewriteTagFields(tag);
+			file.setTag(tag);
 			AudioFileIO.write(file);
 		} catch (CannotReadException | ReadOnlyFileException | IOException e) {
 			String message = UNREADABLE_MESSAGE + filepath;
@@ -435,6 +436,8 @@ public class Song {
 			String message = ARTWORK_READ_FORMAT_MESSAGE + headerFormat
 					+ " at file: " + filepath;
 			throw new UninteractableSongException(message);
+		} catch (NullPointerException e) {
+			return null;
 		}
 	}
 

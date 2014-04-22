@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
+import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
+
 public class Mp3UntaggedTest {
 
 	private static final String TEST_SONG_FILE_PATH = "test-assets/sine440untagged.mp3";
@@ -58,6 +61,13 @@ public class Mp3UntaggedTest {
 	@Test
 	public void testSongFormat() {
 		Assert.assertEquals(SongFormat.MP3, testSong.getFormat());
+	}
+
+	@Test
+	public void testGetArtworkIsNull()
+			throws UninteractableSongException,
+			CorruptSongException {
+		Assert.assertTrue(testSong.getArtwork() == null);
 	}
 
 }

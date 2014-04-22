@@ -98,7 +98,7 @@ public class AlbumTest {
 				lastSongFound = true;
 			}
 		}
-		Assert.assertEquals(true, firstSongFound && lastSongFound);
+		Assert.assertTrue(firstSongFound && lastSongFound);
 	}
 
 }

@@ -109,4 +109,53 @@ public class SongTest {
 		Assert.assertEquals(2088270192, song.hashCode());
 	}
 
+	@Test
+	public void testFileUpdatedOnWriteFields()
+			throws UninteractableSongException,
+			CorruptSongException,
+			InterruptedException {
+		String[] startFields = getFields(song);
+		changeSongFields(song);
+		String[] expectedFields = getFields(song);
+		song.writeFields();
+		Song newsong = new Song(song.getFilepath());
+		String[] actualFields = getFields(newsong);
+		for (int i = 0; i < expectedFields.length; i++) {
+			Assert.assertEquals(expectedFields[i], actualFields[i]);
+		}
+		resetOldFields(song, startFields);
+	}
+
+	private static String[] getFields(Song song) {
+		String[] returnable = {song.getTitle(), song.getArtistTitle(),
+				song.getAlbumTitle(), song.getAlbumArtistTitle(),
+				song.getNumber(), song.getDiskNumber(), song.getYear()};
+		return returnable;
+	}
+
+	private static void changeSongFields(Song song) {
+		song.setTitle("9999");
+		song.setArtistTitle("9999");
+		song.setAlbumTitle("9999");
+		song.setAlbumArtistTitle("9999");
+		song.setNumber("99");
+		song.setDiskNumber("9");
+		song.setYear("9999");
+	}
+
+	private static void resetOldFields(Song song, String[] fields)
+			throws UninteractableSongException,
+			CorruptSongException,
+			InterruptedException {
+		song.setTitle(fields[0]);
+		song.setArtistTitle(fields[1]);
+		song.setAlbumTitle(fields[2]);
+		song.setAlbumArtistTitle(fields[3]);
+		song.setNumber(fields[4]);
+		song.setDiskNumber(fields[5]);
+		song.setYear(fields[6]);
+		song.writeFields();
+		Thread.sleep(1000);
+	}
+
 }
