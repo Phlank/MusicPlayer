@@ -1,6 +1,8 @@
 package com.google.colinmledbetter.musicplayer.model;
 
-public interface SongList extends Iterable<Song> {
+import java.util.Comparator;
+
+public interface Songlist extends Iterable<Song> {
 
 	public boolean addSong(Song song);
 
@@ -13,5 +15,7 @@ public interface SongList extends Iterable<Song> {
 	public Song nextSong();
 
 	public int size();
+	
+	public void sort(Comparator<Song> comparable);
 
 }

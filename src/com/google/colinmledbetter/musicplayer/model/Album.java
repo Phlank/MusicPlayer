@@ -2,13 +2,14 @@ package com.google.colinmledbetter.musicplayer.model;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
 import com.google.common.collect.Lists;
 
-public class Album implements SongList {
+public class Album implements Songlist {
 
 	private ArrayList<Song> songs;
 	private int currentIndex;
@@ -102,6 +103,11 @@ public class Album implements SongList {
 	@Override
 	public int size() {
 		return songs.size();
+	}
+	
+	@Override
+	public void sort(Comparator<Song> comparable) {
+		songs.sort(comparable);
 	}
 
 	public String getTitle() {
