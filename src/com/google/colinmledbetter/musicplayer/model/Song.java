@@ -14,9 +14,7 @@ import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.CannotWriteException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.tag.FieldDataInvalidException;
 import org.jaudiotagger.tag.FieldKey;
-import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.images.Artwork;
@@ -124,6 +122,14 @@ public class Song {
 	private static final String ARTWORK_WRITE_CORRUPT_MESSAGE = "The audio file is corrupted and unable to be opened for writing artwork: ";
 	private static final String ARTWORK_WRITE_UNWRITEABLE_MESSAGE = "The program does not have permission to alter the file: ";
 
+	private static final String FIELD_WRITE_TITLE_MESSAGE = "Unable to write title to file: ";
+	private static final String FIELD_WRITE_ARTIST_MESSAGE = "Unable to write artist to file: ";
+	private static final String FIELD_WRITE_ALBUM_MESSAGE = "Unable to write album to file: ";
+	private static final String FIELD_WRITE_ALBUM_ARTIST_MESSAGE = "Unable to write album artist to file: ";
+	private static final String FIELD_WRITE_NUMBER_MESSAGE = "Unable to write number to file: ";
+	private static final String FIELD_WRITE_DISK_NUMBER_MESSAGE = "Unable to write disk number to file: ";
+	private static final String FIELD_WRITE_YEAR_MESSAGE = "Unable to write year to file: ";
+
 	private static final String UNKNOWN_SONG_TITLE = "Unknown Song";
 	private static final String UNKNOWN_ARTIST_TITLE = "Unknown Artist";
 	private static final String UNKNOWN_ALBUM_TITLE = "Unknown Album";
@@ -176,8 +182,8 @@ public class Song {
 
 	public Song(String filepath) throws UninteractableSongException,
 			CorruptSongException {
+		this.filepath = filepath;
 		try {
-			this.filepath = filepath;
 			AudioFile file = AudioFileIO.read(new File(filepath));
 			loadFieldsFromTag(file.getTag());
 			loadInfoFromHeader(file.getAudioHeader());
@@ -313,15 +319,12 @@ public class Song {
 			throws UninteractableSongException,
 			CorruptSongException {
 		AudioFile file;
+		Tag tag;
 		try {
 			file = AudioFileIO.read(new File(filepath));
-			Tag tag = file.getTag();
+			tag = file.getTag();
 			rewriteTagFields(tag);
-			file.setTag(tag);
 			AudioFileIO.write(file);
-		} catch (UnsupportedOperationException e) {
-			String message = UNREADABLE_MESSAGE;
-			throw new UninteractableSongException(message);
 		} catch (CannotReadException | ReadOnlyFileException | IOException e) {
 			String message = UNREADABLE_MESSAGE + filepath;
 			throw new UninteractableSongException(message);
@@ -334,23 +337,86 @@ public class Song {
 		}
 	}
 
-	private void rewriteTagFields(Tag tag)
-			throws KeyNotFoundException,
-			FieldDataInvalidException {
-		tag.deleteField(FieldKey.TITLE);
-		tag.createField(FieldKey.TITLE, title);
-		tag.deleteField(FieldKey.ARTIST);
-		tag.createField(FieldKey.ARTIST, artistTitle);
-		tag.deleteField(FieldKey.ALBUM);
-		tag.createField(FieldKey.ALBUM, albumTitle);
-		tag.deleteField(FieldKey.ALBUM_ARTIST);
-		tag.createField(FieldKey.ALBUM_ARTIST, albumArtistTitle);
-		tag.deleteField(FieldKey.TRACK);
-		tag.createField(FieldKey.TRACK, number);
-		tag.deleteField(FieldKey.DISC_NO);
-		tag.createField(FieldKey.DISC_NO, diskNumber);
-		tag.deleteField(FieldKey.YEAR);
-		tag.createField(FieldKey.YEAR, year);
+	private void rewriteTagFields(Tag tag) throws UninteractableSongException {
+		rewriteTitleField(tag);
+		rewriteArtistField(tag);
+		rewriteAlbumField(tag);
+		rewriteAlbumArtistField(tag);
+		rewriteNumberField(tag);
+		rewriteDiskNumberField(tag);
+		rewriteYearField(tag);
+	}
+
+	private void rewriteTitleField(Tag tag) throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.TITLE);
+			tag.addField(FieldKey.TITLE, title);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_TITLE_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	private void rewriteArtistField(Tag tag) throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.ARTIST);
+			tag.addField(FieldKey.ARTIST, artistTitle);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_ARTIST_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	private void rewriteAlbumField(Tag tag) throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.ALBUM);
+			tag.addField(FieldKey.ALBUM, albumTitle);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_ALBUM_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	private void rewriteAlbumArtistField(Tag tag)
+			throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.ALBUM_ARTIST);
+			tag.addField(FieldKey.ALBUM_ARTIST, albumArtistTitle);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_ALBUM_ARTIST_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	private void rewriteNumberField(Tag tag) throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.TRACK);
+			tag.addField(FieldKey.TRACK, number);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_NUMBER_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	private void rewriteDiskNumberField(Tag tag)
+			throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.DISC_NO);
+			tag.addField(FieldKey.DISC_NO, diskNumber);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_DISK_NUMBER_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
+	}
+
+	private void rewriteYearField(Tag tag) throws UninteractableSongException {
+		try {
+			tag.deleteField(FieldKey.YEAR);
+			tag.addField(FieldKey.YEAR, year);
+		} catch (Exception e) {
+			String message = FIELD_WRITE_YEAR_MESSAGE + filepath;
+			throw new UninteractableSongException(message);
+		}
 	}
 
 	public BufferedImage getArtwork()
