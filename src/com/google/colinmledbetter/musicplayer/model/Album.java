@@ -2,9 +2,11 @@ package com.google.colinmledbetter.musicplayer.model;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import com.google.colinmledbetter.musicplayer.model.comparable.SongDiskNumberComparable;
 import com.google.colinmledbetter.musicplayer.model.comparable.SongNumberComparable;
 import com.google.colinmledbetter.musicplayer.model.exceptions.CorruptSongException;
 import com.google.colinmledbetter.musicplayer.model.exceptions.UninteractableSongException;
@@ -50,6 +52,7 @@ public class Album implements SongList {
 		if (songInfoMatchesAlbumInfo(song) && !songs.contains(song)) {
 			songs.add(song);
 			sort(new SongNumberComparable());
+			sort(new SongDiskNumberComparable());
 			return true;
 		} else {
 			return false;
@@ -109,7 +112,7 @@ public class Album implements SongList {
 	
 	@Override
 	public void sort(Comparator<Song> comparable) {
-		songs.sort(comparable);
+		Collections.sort(songs, comparable);
 	}
 
 	public String getTitle() {
