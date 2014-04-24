@@ -155,7 +155,6 @@ public class SongTest {
 		song.setDiskNumber(fields[5]);
 		song.setYear(fields[6]);
 		song.writeFields();
-		Thread.sleep(1000);
 	}
 
 }
