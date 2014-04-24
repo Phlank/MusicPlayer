@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import com.github.phlank.musicplayer.model.comparable.SongDiskNumberComparable;
 import com.github.phlank.musicplayer.model.comparable.SongNumberComparable;
-import com.github.phlank.musicplayer.model.exceptions.CorruptSongException;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 import com.google.common.collect.Lists;
 
@@ -40,7 +39,7 @@ public class Album implements SongList {
 	private void loadArtwork(Song song) {
 		try {
 			artwork = song.getArtwork();
-		} catch (UninteractableSongException | CorruptSongException e) {
+		} catch (UninteractableSongException e) {
 			artwork = null;
 		}
 	}

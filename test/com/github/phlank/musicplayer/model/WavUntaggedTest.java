@@ -10,9 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.phlank.musicplayer.model.Song;
-import com.github.phlank.musicplayer.model.SongFormat;
-import com.github.phlank.musicplayer.model.exceptions.CorruptSongException;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 
 public class WavUntaggedTest {
@@ -75,13 +72,12 @@ public class WavUntaggedTest {
 
 	@Test(expected = UninteractableSongException.class)
 	public void testHasUnwritableArtwork() throws UninteractableSongException,
-			IOException, CorruptSongException {
+			IOException {
 		testSong.writeArtwork(artwork);
 	}
 
 	@Test
-	public void testGetArtworkReturnsNull() throws UninteractableSongException,
-			CorruptSongException {
+	public void testGetArtworkReturnsNull() throws UninteractableSongException {
 		Assert.assertTrue(testSong.getArtwork() == null);
 	}
 

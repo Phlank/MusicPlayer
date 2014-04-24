@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.phlank.musicplayer.model.Song;
-import com.github.phlank.musicplayer.model.exceptions.CorruptSongException;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 
 public class SongTest {
@@ -16,8 +14,7 @@ public class SongTest {
 	Song copy;
 
 	@Before
-	public void loadSong() throws UninteractableSongException,
-			CorruptSongException, IOException {
+	public void loadSong() throws UninteractableSongException, IOException {
 		song = new Song("test-assets/sine440tagged.mp3");
 		copy = new Song.Builder().setFilepath(song.getFilepath())//
 				.setTitle(song.getTitle())//
@@ -49,14 +46,14 @@ public class SongTest {
 
 	@Test
 	public void songNotEqualToSongWithDifferentTitle()
-			throws UninteractableSongException, CorruptSongException {
+			throws UninteractableSongException {
 		copy.setTitle("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
 
 	@Test
 	public void songNotEqualToSongWithDifferentArtistTitle()
-			throws UninteractableSongException, CorruptSongException {
+			throws UninteractableSongException {
 		copy.setArtistTitle("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
@@ -108,8 +105,7 @@ public class SongTest {
 
 	@Test
 	public void testFileUpdatedOnWriteFields()
-			throws UninteractableSongException, CorruptSongException,
-			InterruptedException {
+			throws UninteractableSongException, InterruptedException {
 		String[] startFields = getFields(song);
 		changeSongFields(song);
 		String[] expectedFields = getFields(song);
@@ -140,8 +136,7 @@ public class SongTest {
 	}
 
 	private static void resetOldFields(Song song, String[] fields)
-			throws UninteractableSongException, CorruptSongException,
-			InterruptedException {
+			throws UninteractableSongException, InterruptedException {
 		song.setTitle(fields[0]);
 		song.setArtistTitle(fields[1]);
 		song.setAlbumTitle(fields[2]);
@@ -150,6 +145,30 @@ public class SongTest {
 		song.setDiskNumber(fields[5]);
 		song.setYear(fields[6]);
 		song.writeFields();
+	}
+
+	@Test(expected = UninteractableSongException.class)
+	public void loadWavTaggedThrowsUninteractableSongException()
+			throws UninteractableSongException {
+		new Song("test-assets/sine440tagged_uninteractable.wav");
+	}
+
+	@Test(expected = UninteractableSongException.class)
+	public void loadNonSongFileThrowsUninteractableSongException()
+			throws UninteractableSongException {
+		new Song("test-assets/notasong.txt");
+	}
+
+	@Test(expected = UninteractableSongException.class)
+	public void loadSongThatDoesNotExistThrowsException()
+			throws UninteractableSongException {
+		new Song("thisfiledoesnotexist");
+	}
+
+	@Test
+	public void loadCorruptTaggedMp3ThrowsException()
+			throws UninteractableSongException {
+		new Song("test-assets/sine440tagged_corrupt.mp3");
 	}
 
 }

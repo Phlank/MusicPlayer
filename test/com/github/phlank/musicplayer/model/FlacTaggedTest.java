@@ -10,9 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.phlank.musicplayer.model.Song;
-import com.github.phlank.musicplayer.model.SongFormat;
-import com.github.phlank.musicplayer.model.exceptions.CorruptSongException;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 
 public class FlacTaggedTest {
@@ -75,8 +72,7 @@ public class FlacTaggedTest {
 
 	@Test
 	public void hasWritableAndReadableArtworkField()
-			throws UninteractableSongException, IOException,
-			CorruptSongException {
+			throws UninteractableSongException, IOException {
 		testSong.writeArtwork(artwork);
 		Assert.assertNotEquals(testSong.getArtwork(), null);
 	}

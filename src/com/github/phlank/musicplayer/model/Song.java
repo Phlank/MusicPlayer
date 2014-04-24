@@ -20,7 +20,6 @@ import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.images.Artwork;
 import org.jaudiotagger.tag.images.ArtworkFactory;
 
-import com.github.phlank.musicplayer.model.exceptions.CorruptSongException;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -183,9 +182,7 @@ public class Song {
 		this.enumFormat = SongFormat.headerFormatToEnumFormat(headerFormat);
 	}
 
-	public Song(String filepath)
-			throws UninteractableSongException,
-			CorruptSongException {
+	public Song(String filepath) throws UninteractableSongException {
 		this.filepath = filepath;
 		try {
 			AudioFile file = AudioFileIO.read(new File(filepath));
@@ -196,7 +193,7 @@ public class Song {
 			throw new UninteractableSongException(message);
 		} catch (TagException | InvalidAudioFrameException e) {
 			String message = CORRUPT_MESSAGE + filepath;
-			throw new CorruptSongException(message);
+			throw new UninteractableSongException(message);
 		}
 	}
 
@@ -319,8 +316,7 @@ public class Song {
 		this.year = year;
 	}
 
-	public void writeFields() throws UninteractableSongException,
-			CorruptSongException {
+	public void writeFields() throws UninteractableSongException {
 		AudioFile file;
 		Tag tag;
 		try {
@@ -334,7 +330,7 @@ public class Song {
 			throw new UninteractableSongException(message);
 		} catch (TagException | InvalidAudioFrameException e) {
 			String message = CORRUPT_MESSAGE;
-			throw new CorruptSongException(message);
+			throw new UninteractableSongException(message);
 		} catch (CannotWriteException e) {
 			String message = UNWRITEABLE_MESSAGE + filepath;
 			throw new UninteractableSongException(message);
@@ -423,8 +419,7 @@ public class Song {
 		}
 	}
 
-	public BufferedImage getArtwork() throws UninteractableSongException,
-			CorruptSongException {
+	public BufferedImage getArtwork() throws UninteractableSongException {
 		try {
 			return (BufferedImage) AudioFileIO.read(new File(filepath))
 					.getTag().getFirstArtwork().getImage();
@@ -433,7 +428,7 @@ public class Song {
 			throw new UninteractableSongException(message);
 		} catch (TagException | InvalidAudioFrameException e) {
 			String message = ARTWORK_READ_CORRUPT_MESSAGE + filepath;
-			throw new CorruptSongException(message);
+			throw new UninteractableSongException(message);
 		} catch (UnsupportedOperationException e) {
 			String message = ARTWORK_READ_FORMAT_MESSAGE + headerFormat
 					+ " at file: " + filepath;
@@ -444,8 +439,7 @@ public class Song {
 	}
 
 	public void writeArtwork(BufferedImage image)
-			throws UninteractableSongException, IOException,
-			CorruptSongException {
+			throws UninteractableSongException, IOException {
 		Tag tag;
 		File writeFile;
 		Artwork artwork;
@@ -469,7 +463,7 @@ public class Song {
 			throw new IOException(message);
 		} catch (TagException | InvalidAudioFrameException e) {
 			String message = ARTWORK_WRITE_CORRUPT_MESSAGE + filepath;
-			throw new CorruptSongException(message);
+			throw new UninteractableSongException(message);
 		} catch (ReadOnlyFileException | CannotWriteException e) {
 			String message = ARTWORK_WRITE_UNWRITEABLE_MESSAGE + filepath;
 			throw new UninteractableSongException(message);

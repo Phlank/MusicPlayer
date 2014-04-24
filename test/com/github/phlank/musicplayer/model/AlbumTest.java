@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.github.phlank.musicplayer.model.Album;
 import com.github.phlank.musicplayer.model.Song;
-import com.github.phlank.musicplayer.model.exceptions.CorruptSongException;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 
 public class AlbumTest {
@@ -16,8 +15,7 @@ public class AlbumTest {
 	Song lastSong;
 
 	@Before
-	public void loadSongsIntoAlbum() throws UninteractableSongException,
-			CorruptSongException {
+	public void loadSongsIntoAlbum() throws UninteractableSongException {
 		firstSong = new Song("test-assets/sine440tagged.mp3");
 		lastSong = new Song("test-assets/sine440tagged.flac");
 		album = new Album(firstSong);
@@ -77,7 +75,7 @@ public class AlbumTest {
 
 	@Test
 	public void testReturnsFalseIfTryingToAddSongThatDoesNotMatchAlbumInfo()
-			throws UninteractableSongException, CorruptSongException {
+			throws UninteractableSongException {
 		Song song = new Song("test-assets/sine440untagged.mp3");
 		Assert.assertFalse(album.addSong(song));
 	}
@@ -138,7 +136,7 @@ public class AlbumTest {
 
 	@Test
 	public void testAddSongNotMatchingInfoReturnsFalse()
-			throws UninteractableSongException, CorruptSongException {
+			throws UninteractableSongException {
 		Assert.assertFalse(album.addSong(new Song(
 				"test-assets/sine440untagged.mp3")));
 	}
