@@ -12,10 +12,14 @@ public interface SongList extends Iterable<Song> {
 	public boolean removeSong(Song song);
 
 	public Song getCurrentSong();
+	
+	public boolean setCurrentSong(Song song);
 
 	public Song previousSong();
 
 	public Song nextSong();
+	
+	public Song firstSong();
 
 	public int size();
 

@@ -84,15 +84,14 @@ public class Album implements SongList {
 			return null;
 		}
 	}
-
+	
 	@Override
-	public Song nextSong() {
-		currentIndex++;
-		if (currentIndex < size()) {
-			return songs.get(currentIndex);
+	public boolean setCurrentSong(Song song) {
+		if (songs.contains(song)) {
+			currentIndex = songs.indexOf(song);
+			return true;
 		} else {
-			currentIndex--;
-			return null;
+			return false;
 		}
 	}
 
@@ -103,6 +102,27 @@ public class Album implements SongList {
 			return songs.get(currentIndex);
 		} else {
 			currentIndex++;
+			return null;
+		}
+	}
+	
+	@Override
+	public Song nextSong() {
+		currentIndex++;
+		if (currentIndex < size()) {
+			return songs.get(currentIndex);
+		} else {
+			currentIndex--;
+			return null;
+		}
+	}
+	
+	@Override
+	public Song firstSong() {
+		currentIndex = 0;
+		if (!songs.isEmpty()) {
+			return songs.get(currentIndex);
+		} else {
 			return null;
 		}
 	}

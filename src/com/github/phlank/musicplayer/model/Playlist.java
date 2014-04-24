@@ -44,6 +44,12 @@ public class Playlist implements SongList {
 		// TODO implement
 		return null;
 	}
+	
+	@Override
+	public boolean setCurrentSong(Song song) {
+		//TODO implement
+		return true;
+	}
 
 	@Override
 	public Song previousSong() {
@@ -54,6 +60,12 @@ public class Playlist implements SongList {
 	@Override
 	public Song nextSong() {
 		// TODO implement
+		return null;
+	}
+	
+	@Override
+	public Song firstSong() {
+		//TODO implement
 		return null;
 	}
 
