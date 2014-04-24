@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.colinmledbetter.musicplayer.model.Song;
+import com.google.colinmledbetter.musicplayer.model.TestUtils;
 
 public class SongAlbumTitleComparableTest {
 
@@ -15,7 +16,7 @@ public class SongAlbumTitleComparableTest {
 
 	@Before
 	public void loadSongList() {
-		songList = ComparableTestUtils.sortableSongs;
+		songList = TestUtils.sortableSongs;
 	}
 
 	@Test

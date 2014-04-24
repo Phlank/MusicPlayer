@@ -1,11 +1,11 @@
-package com.google.colinmledbetter.musicplayer.model.comparable;
+package com.google.colinmledbetter.musicplayer.model;
 
 import java.util.List;
 
 import com.google.colinmledbetter.musicplayer.model.Song;
 import com.google.common.collect.Lists;
 
-public class ComparableTestUtils {
+public class TestUtils {
 
 	/*
 	 * A list of songs with comparable orders that came about by scrambling numbers

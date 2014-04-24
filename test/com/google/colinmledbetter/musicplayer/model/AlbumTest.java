@@ -99,4 +99,46 @@ public class AlbumTest {
 		Assert.assertTrue(firstSongFound && lastSongFound);
 	}
 
+	@Test
+	public void testLoadsArtwork() {
+		Assert.assertTrue(album.getArtwork() != null);
+	}
+
+	@Test
+	public void testArtworkFromBadSongIsNull()
+			throws UninteractableSongException {
+		Song badSong = new Song.Builder().setFilepath("thisfiledoesnotexist")//
+				.setTitle("")//
+				.setArtistTitle("")//
+				.setAlbumTitle("")//
+				.setAlbumArtistTitle("")//
+				.setNumber("")//
+				.setDiskNumber("")//
+				.setYear("")//
+				.setHeaderFormat("")//
+				.setLength("0")//
+				.build();
+		Album album = new Album(badSong);
+		Assert.assertNull(album.getArtwork());
+	}
+
+	@Test
+	public void testCurrentSongOfEmptyAlbumIsNull() {
+		album.removeSong(firstSong);
+		album.removeSong(lastSong);
+		Assert.assertNull(album.getCurrentSong());
+	}
+
+	@Test
+	public void testAddSongAlreadyInAlbumReturnsFalse() {
+		Assert.assertFalse(album.addSong(firstSong));
+	}
+
+	@Test
+	public void testAddSongNotMatchingInfoReturnsFalse()
+			throws UninteractableSongException, CorruptSongException {
+		Assert.assertFalse(album.addSong(new Song(
+				"test-assets/sine440untagged.mp3")));
+	}
+
 }

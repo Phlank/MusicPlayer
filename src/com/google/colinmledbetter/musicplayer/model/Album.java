@@ -21,7 +21,7 @@ public class Album implements SongList {
 	private String artistTitle;
 	private BufferedImage artwork;
 
-	public Album(Song song) throws UninteractableSongException {
+	public Album(Song song) {
 		songs = Lists.newArrayList();
 		currentIndex = 0;
 		songs.add(song);
@@ -68,7 +68,7 @@ public class Album implements SongList {
 	public boolean removeSong(Song song) {
 		boolean success = songs.remove(song);
 		songs.trimToSize();
-		if (currentIndex == songs.size()) {
+		while (currentIndex >= songs.size() && currentIndex > 0) {
 			currentIndex--;
 		}
 		return success;
@@ -97,7 +97,7 @@ public class Album implements SongList {
 	@Override
 	public Song previousSong() {
 		currentIndex--;
-		if (currentIndex >= 0 && !songs.isEmpty()) {
+		if (currentIndex >= 0) {
 			return songs.get(currentIndex);
 		} else {
 			currentIndex++;
