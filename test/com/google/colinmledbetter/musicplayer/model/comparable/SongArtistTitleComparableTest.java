@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import com.google.colinmledbetter.musicplayer.model.Song;
 
-public class SongAlbumComparableTest {
+public class SongArtistTitleComparableTest {
 	
-	private List<Song> songList;
+private List<Song> songList;
 	
 	@Before
 	public void loadSongList() {
@@ -20,10 +20,10 @@ public class SongAlbumComparableTest {
 	
 	@Test
 	public void testAfterSortIsSorted() {
-		Collections.sort(songList, new SongAlbumTitleComparable());
+		Collections.sort(songList, new SongArtistTitleComparable());
 		boolean isSorted = true;
 		for (int i = 0; i < 10 && isSorted; i++) {
-			if (!songList.get(i).getAlbumTitle().equals(String.valueOf(i))) {
+			if (!songList.get(i).getArtistTitle().equals(String.valueOf(i))) {
 				isSorted = false;
 			}
 		}
