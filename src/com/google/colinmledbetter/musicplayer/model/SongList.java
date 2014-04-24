@@ -15,7 +15,7 @@ public interface SongList extends Iterable<Song> {
 	public Song nextSong();
 
 	public int size();
-	
+
 	public void sort(Comparator<Song> comparable);
 
 }

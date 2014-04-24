@@ -180,7 +180,8 @@ public class Song {
 		this.enumFormat = SongFormat.headerFormatToEnumFormat(headerFormat);
 	}
 
-	public Song(String filepath) throws UninteractableSongException,
+	public Song(String filepath)
+			throws UninteractableSongException,
 			CorruptSongException {
 		this.filepath = filepath;
 		try {
@@ -315,8 +316,7 @@ public class Song {
 		this.year = year;
 	}
 
-	public void writeFields()
-			throws UninteractableSongException,
+	public void writeFields() throws UninteractableSongException,
 			CorruptSongException {
 		AudioFile file;
 		Tag tag;
@@ -420,8 +420,7 @@ public class Song {
 		}
 	}
 
-	public BufferedImage getArtwork()
-			throws UninteractableSongException,
+	public BufferedImage getArtwork() throws UninteractableSongException,
 			CorruptSongException {
 		try {
 			return (BufferedImage) AudioFileIO.read(new File(filepath))
@@ -442,8 +441,7 @@ public class Song {
 	}
 
 	public void writeArtwork(BufferedImage image)
-			throws UninteractableSongException,
-			IOException,
+			throws UninteractableSongException, IOException,
 			CorruptSongException {
 		Tag tag;
 		File writeFile;

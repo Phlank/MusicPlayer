@@ -10,14 +10,14 @@ import org.junit.Test;
 import com.google.colinmledbetter.musicplayer.model.Song;
 
 public class SongArtistTitleComparableTest {
-	
-private List<Song> songList;
-	
+
+	private List<Song> songList;
+
 	@Before
 	public void loadSongList() {
 		songList = ComparableTestUtils.sortableSongs;
 	}
-	
+
 	@Test
 	public void testAfterSortIsSorted() {
 		Collections.sort(songList, new SongArtistTitleComparable());

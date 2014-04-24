@@ -64,8 +64,7 @@ public class Mp3UntaggedTest {
 	}
 
 	@Test
-	public void testGetArtworkIsNull()
-			throws UninteractableSongException,
+	public void testGetArtworkIsNull() throws UninteractableSongException,
 			CorruptSongException {
 		Assert.assertTrue(testSong.getArtwork() == null);
 	}

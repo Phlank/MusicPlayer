@@ -109,7 +109,7 @@ public class Album implements SongList {
 	public int size() {
 		return songs.size();
 	}
-	
+
 	@Override
 	public void sort(Comparator<Song> comparable) {
 		Collections.sort(songs, comparable);

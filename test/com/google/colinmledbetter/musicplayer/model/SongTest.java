@@ -15,10 +15,8 @@ public class SongTest {
 	Song copy;
 
 	@Before
-	public void loadSong()
-			throws UninteractableSongException,
-			CorruptSongException,
-			IOException {
+	public void loadSong() throws UninteractableSongException,
+			CorruptSongException, IOException {
 		song = new Song("test-assets/sine440tagged.mp3");
 		copy = new Song.Builder().setFilepath(song.getFilepath())//
 				.setTitle(song.getTitle())//
@@ -50,16 +48,14 @@ public class SongTest {
 
 	@Test
 	public void songNotEqualToSongWithDifferentTitle()
-			throws UninteractableSongException,
-			CorruptSongException {
+			throws UninteractableSongException, CorruptSongException {
 		copy.setTitle("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
 
 	@Test
 	public void songNotEqualToSongWithDifferentArtistTitle()
-			throws UninteractableSongException,
-			CorruptSongException {
+			throws UninteractableSongException, CorruptSongException {
 		copy.setArtistTitle("Not the same");
 		Assert.assertFalse(song.equals(copy));
 	}
@@ -111,8 +107,7 @@ public class SongTest {
 
 	@Test
 	public void testFileUpdatedOnWriteFields()
-			throws UninteractableSongException,
-			CorruptSongException,
+			throws UninteractableSongException, CorruptSongException,
 			InterruptedException {
 		String[] startFields = getFields(song);
 		changeSongFields(song);
@@ -127,9 +122,9 @@ public class SongTest {
 	}
 
 	private static String[] getFields(Song song) {
-		String[] returnable = {song.getTitle(), song.getArtistTitle(),
+		String[] returnable = { song.getTitle(), song.getArtistTitle(),
 				song.getAlbumTitle(), song.getAlbumArtistTitle(),
-				song.getNumber(), song.getDiskNumber(), song.getYear()};
+				song.getNumber(), song.getDiskNumber(), song.getYear() };
 		return returnable;
 	}
 
@@ -144,8 +139,7 @@ public class SongTest {
 	}
 
 	private static void resetOldFields(Song song, String[] fields)
-			throws UninteractableSongException,
-			CorruptSongException,
+			throws UninteractableSongException, CorruptSongException,
 			InterruptedException {
 		song.setTitle(fields[0]);
 		song.setArtistTitle(fields[1]);

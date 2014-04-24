@@ -9,10 +9,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class Playlist implements SongList {
-	
+
 	private List<Song> songs;
 	private HashMap<Integer, Song> songsInOrder;
-	
+
 	public Playlist() {
 		songs = Lists.newArrayList();
 		songsInOrder = Maps.newHashMap();
@@ -32,10 +32,9 @@ public class Playlist implements SongList {
 
 	@Override
 	public boolean removeSong(Song song) {
-		//TODO implement
+		// TODO implement
 		return true;
 	}
-
 
 	@Override
 	public Song getCurrentSong() {
@@ -64,7 +63,7 @@ public class Playlist implements SongList {
 	@Override
 	public void sort(Comparator<Song> comparable) {
 		// TODO implement
-		
+
 	}
 
 }
