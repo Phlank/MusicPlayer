@@ -1,10 +1,11 @@
-package com.github.phlank.musicplayer.model;
+package com.github.phlank.musicplayer.model.comparable;
 
 import java.util.List;
 
+import com.github.phlank.musicplayer.model.Song;
 import com.google.common.collect.Lists;
 
-public class TestUtils {
+public class ComparableTestUtils {
 
 	/*
 	 * A list of songs with comparable orders that came about by scrambling numbers

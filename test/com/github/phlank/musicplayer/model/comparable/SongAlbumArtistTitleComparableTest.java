@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.phlank.musicplayer.model.Song;
-import com.github.phlank.musicplayer.model.TestUtils;
 
 public class SongAlbumArtistTitleComparableTest {
 
@@ -16,7 +15,7 @@ public class SongAlbumArtistTitleComparableTest {
 
 	@Before
 	public void loadSongList() {
-		songList = TestUtils.sortableSongs;
+		songList = ComparableTestUtils.sortableSongs;
 	}
 
 	@Test
