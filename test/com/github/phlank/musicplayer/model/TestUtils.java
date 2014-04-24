@@ -2,7 +2,6 @@ package com.github.phlank.musicplayer.model;
 
 import java.util.List;
 
-import com.github.phlank.musicplayer.model.Song;
 import com.google.common.collect.Lists;
 
 public class TestUtils {

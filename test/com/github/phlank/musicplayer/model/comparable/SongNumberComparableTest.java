@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.github.phlank.musicplayer.model.Song;
 import com.github.phlank.musicplayer.model.TestUtils;
-import com.github.phlank.musicplayer.model.comparable.SongNumberComparable;
 
 public class SongNumberComparableTest {
 

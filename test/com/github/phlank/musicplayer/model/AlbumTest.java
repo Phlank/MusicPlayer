@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.phlank.musicplayer.model.Album;
-import com.github.phlank.musicplayer.model.Song;
 import com.github.phlank.musicplayer.model.exceptions.UninteractableSongException;
 
 public class AlbumTest {

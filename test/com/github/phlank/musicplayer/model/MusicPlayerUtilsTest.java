@@ -3,8 +3,6 @@ package com.github.phlank.musicplayer.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.phlank.musicplayer.model.MusicPlayerUtils;
-
 public class MusicPlayerUtilsTest {
 
 	@Test
