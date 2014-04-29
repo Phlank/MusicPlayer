@@ -184,10 +184,11 @@ public class Song {
 
 	public Song(String filepath) throws UninteractableSongException {
 		this.filepath = filepath;
+		File file = new File(filepath);
 		try {
-			AudioFile file = AudioFileIO.read(new File(filepath));
-			loadFieldsFromTag(file.getTag());
-			loadInfoFromHeader(file.getAudioHeader());
+			AudioFile audioFile = AudioFileIO.read(file);
+			loadFieldsFromTag(audioFile.getTag());
+			loadInfoFromHeader(audioFile.getAudioHeader());
 		} catch (CannotReadException | IOException | ReadOnlyFileException e) {
 			String message = UNREADABLE_MESSAGE + filepath;
 			throw new UninteractableSongException(message);
@@ -439,7 +440,7 @@ public class Song {
 	}
 
 	public void writeArtwork(BufferedImage image)
-			throws UninteractableSongException, IOException {
+			throws UninteractableSongException {
 		Tag tag;
 		File writeFile;
 		Artwork artwork;
@@ -460,7 +461,7 @@ public class Song {
 			throw new UninteractableSongException(message);
 		} catch (IOException | CannotReadException e) {
 			String message = ARTWORK_WRITE_IO_MESSAGE + filepath;
-			throw new IOException(message);
+			throw new UninteractableSongException(message);
 		} catch (TagException | InvalidAudioFrameException e) {
 			String message = ARTWORK_WRITE_CORRUPT_MESSAGE + filepath;
 			throw new UninteractableSongException(message);

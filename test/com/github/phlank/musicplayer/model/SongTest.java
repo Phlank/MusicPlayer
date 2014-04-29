@@ -1,6 +1,10 @@
 package com.github.phlank.musicplayer.model;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,11 +16,24 @@ public class SongTest {
 
 	Song song;
 	Song copy;
+	Song nonexistentSong;
 
 	@Before
 	public void loadSong() throws UninteractableSongException, IOException {
 		song = new Song("test-assets/sine440tagged.mp3");
 		copy = new Song.Builder().setFilepath(song.getFilepath())//
+				.setTitle(song.getTitle())//
+				.setArtistTitle(song.getArtistTitle())//
+				.setAlbumTitle(song.getAlbumTitle())//
+				.setAlbumArtistTitle(song.getAlbumArtistTitle())//
+				.setNumber(song.getNumber())//
+				.setDiskNumber(song.getDiskNumber())//
+				.setYear(song.getYear())//
+				.setLength(song.getLength() + "")//
+				.setHeaderFormat(song.getHeaderFormat())//
+				.build();
+		nonexistentSong = new Song.Builder()
+				.setFilepath("thisfiledoesnotexist")//
 				.setTitle(song.getTitle())//
 				.setArtistTitle(song.getArtistTitle())//
 				.setAlbumTitle(song.getAlbumTitle())//
@@ -165,10 +182,17 @@ public class SongTest {
 		new Song("thisfiledoesnotexist");
 	}
 
-	@Test
-	public void loadCorruptTaggedMp3ThrowsException()
+	@Test(expected = UninteractableSongException.class)
+	public void testWriteTagsOnNonexistantFileThrowsException()
 			throws UninteractableSongException {
-		new Song("test-assets/sine440tagged_corrupt.mp3");
+		nonexistentSong.writeFields();
+	}
+
+	@Test(expected = UninteractableSongException.class)
+	public void testWriteArtworkOnNonexistantFileThrowsException()
+			throws UninteractableSongException, IOException {
+		BufferedImage image = ImageIO.read(new File("test-assets/artwork.png"));
+		nonexistentSong.writeArtwork(image);
 	}
 
 }

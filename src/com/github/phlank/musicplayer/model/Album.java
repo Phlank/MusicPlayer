@@ -84,7 +84,7 @@ public class Album implements SongList {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public boolean setCurrentSong(Song song) {
 		if (songs.contains(song)) {
@@ -105,7 +105,7 @@ public class Album implements SongList {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Song nextSong() {
 		currentIndex++;
@@ -116,7 +116,7 @@ public class Album implements SongList {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Song firstSong() {
 		currentIndex = 0;

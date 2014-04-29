@@ -139,4 +139,42 @@ public class AlbumTest {
 				"test-assets/sine440untagged.mp3")));
 	}
 
+	@Test
+	public void testSetCurrentSongWithSongInAlbumReturnsTrue() {
+		Assert.assertTrue(album.setCurrentSong(lastSong));
+	}
+
+	@Test
+	public void testSetCurrentSongWidthSongNotInAlbumReturnsFalse()
+			throws UninteractableSongException {
+		Assert.assertFalse(album.setCurrentSong(new Song(
+				"test-assets/sine440untagged.mp3")));
+	}
+
+	@Test
+	public void testSetCurrentSongChangesCurrentSong() {
+		album.setCurrentSong(lastSong);
+		Assert.assertEquals(lastSong, album.getCurrentSong());
+	}
+	
+	@Test
+	public void testFirstSongReturnsFirstSong() {
+		album.nextSong();
+		Assert.assertEquals(firstSong, album.firstSong());
+	}
+	
+	@Test
+	public void testOnFirstSongCurrentSongBecomesFirstSong() {
+		album.nextSong();
+		album.firstSong();
+		Assert.assertEquals(firstSong, album.getCurrentSong());
+	}
+	
+	@Test
+	public void testFirstSongReturnsNullWhenEmpty() {
+		album.removeSong(firstSong);
+		album.removeSong(lastSong);
+		Assert.assertNull(album.firstSong());
+	}
+
 }
